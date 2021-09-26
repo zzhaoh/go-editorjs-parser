@@ -1,0 +1,73 @@
+.attaches-content {
+    background: #fcfcfc;
+    padding: 25px;
+    border: 1px solid rgba(201, 201, 204, 0.48);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    border-radius: 2px;
+    will-change: filter;
+    animation: link-in 450ms 1 cubic-bezier(0.215, 0.61, 0.355, 1);
+    display: block;
+    color: initial !important;
+    text-decoration: none !important;
+    margin: 10px;
+}
+
+.attaches-content::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.attaches-content:hover {
+    box-shadow: 0 0 3px rgba(0, 0, 0, .16);
+}
+
+.attaches-anchor {
+    display: block;
+    font-size: 15px;
+    line-height: 1em;
+    border: 0 !important;
+    padding: 0 !important;
+    text-decoration: none;
+}
+
+.attaches-left {
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    margin: 0 15px 0 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 3px;
+    float: left;
+}
+
+.attaches-center {
+    float: left;
+    width: calc(100% - 155px);
+}
+
+.attaches-filename {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5em;
+    margin: 0 0 10px 0;
+}
+
+.attaches-size {
+    font-size: 15px;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #888 !important;
+}
+
+.attaches-right {
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    margin: 0 15px 0 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    float: right;
+}

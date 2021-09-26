@@ -1,0 +1,20 @@
+.embed-block {
+    display: block;
+    margin: 10px;
+}
+
+.embed-title {
+    display: block;
+    padding: 10px;
+}
+
+.embed-bottom {
+    display: block;
+    padding: 10px;
+    text-align: right;
+}
+
+.embed-bottom a{
+    text-decoration: none;
+    color: #1a1a7a;
+}

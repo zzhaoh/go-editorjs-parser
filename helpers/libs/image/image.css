@@ -1,0 +1,19 @@
+.img-with-background {
+    background: #eff2f5;
+    padding: 10px;
+}
+
+.img-with-background img {
+    display: block;
+    max-width: 60%;
+    margin: 0 auto;
+}
+
+.img-with-border {
+    border: 1px solid #e8e8eb;
+}
+
+.img-stretched img {
+    max-width: none;
+    width: 100%;
+}

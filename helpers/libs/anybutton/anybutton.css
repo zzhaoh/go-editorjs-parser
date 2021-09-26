@@ -1,0 +1,18 @@
+a.AnyButton {
+    background-color: #727272;
+    border-radius: 5px;
+    color: white;
+    padding: .5em 1em;
+    position: relative;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a.AnyButton:hover {
+    background-color: #484848;
+}
+
+a.AnyButton:active {
+    box-shadow: none;
+    top: 5px;
+}
