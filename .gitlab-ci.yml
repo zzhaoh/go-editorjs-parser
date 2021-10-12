@@ -36,6 +36,7 @@ tag:
     - git push demo-tag-origin "Release_$(date +%Y-%m-%d)"
 
 publish:
+  image: inetprocess/gitlab-release
   stage: publish
   only:
     - master
