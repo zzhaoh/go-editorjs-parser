@@ -14,7 +14,7 @@ build:
   script:
     - go mod tidy
     - go mod vendor
-    - go build goEditorParser.go
+    - go build ./goEditorParser.go
 
 tag:
   stage: build
