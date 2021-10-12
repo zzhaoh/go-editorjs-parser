@@ -1,8 +1,5 @@
 image: golang
 
-variables:
-  BUILD_PATH: ./build
-
 stages:
   - build
   - publish
@@ -14,12 +11,14 @@ build:
   script:
     - go mod tidy
     - go mod vendor
-    - go build ./goEditorParser.go
+    - go build
 
 tag:
   stage: build
   only:
     - master
+  dependencies:
+    - build
   script:
     - git config user.name "Rodrigo Odhin"
     - git config user.email rodrigoodhin@gmail.com
@@ -36,4 +35,4 @@ publish:
     - build
     - tag
   script:
-    - gitlab-release --message 'Automatic release' goEditorParser
+    - gitlab-release --message 'Automatic release' go-editorjs-parser
