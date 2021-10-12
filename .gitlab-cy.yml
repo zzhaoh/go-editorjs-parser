@@ -1,0 +1,16 @@
+image: "ubuntu"
+
+variables:
+  BUILD_PATH: ./
+  PROJECT_NAME: go-editorjs-parser
+
+stages:
+  - package
+
+package website:
+  stage: package
+  artifacts:
+    name: "$PROJECT_NAME-$CI_COMMIT_REF_NAME"
+    when: always
+    paths:
+      - ${BUILD_PATH}
