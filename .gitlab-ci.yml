@@ -14,10 +14,10 @@ build:
     - schedules
   script:
     - mkdir build
-    - cp ./domain ./build
-    - cp ./helpers ./build
-    - cp ./parser ./build
-    - cp ./pkg ./build
+    - cp -r ./domain ./build
+    - cp -r ./helpers ./build
+    - cp -r ./parser ./build
+    - cp -r ./pkg ./build
     - cp go.mod ./build
     - cp goEditorjsParser.go ./build
   artifacts:
