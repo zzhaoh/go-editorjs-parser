@@ -1,11 +1,11 @@
 variables:
-  PROJECT_NAME: go-editorjs-parser
+  TAG_NAME: "v$(date +%y.%m.%d)"
 
 stages:
   - tag
   - release
 
-tag:
+create tag:
   stage: tag
   only:
     - master
@@ -13,15 +13,19 @@ tag:
     - git config user.name "Rodrigo Odhin"
     - git config user.email rodrigoodhin@gmail.com
     - git remote add demo-tag-origin https://oauth2:${GITLAB_ACCESS_TOKEN}@gitlab.com/${CI_PROJECT_PATH}
-    - git tag -a "${PROJECT_NAME}_$(date +%Y-%m-%d)" -m "Auto-Release"
-    - git push demo-tag-origin "${PROJECT_NAME}_$(date +%Y-%m-%d)"
+    - git tag -a "${TAG_NAME}" -m "Auto-Release"
+    - git push demo-tag-origin "${TAG_NAME}"
 
-release-branch:
+create release:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli
   when: manual
+  only:
+    - master
+  dependencies:
+    - tag
   script:
     - >
-      release-cli create --name "${PROJECT_NAME}_$(date +%Y-%m-%d)" --description "${PROJECT_NAME} - $(date +%Y-%m-%d)"
-      --tag-name "${PROJECT_NAME}_$(date +%Y-%m-%d)" --ref $CI_COMMIT_SHA
+      release-cli create --name "${TAG_NAME}" --description "Version ${TAG_NAME} created at $(date +%Y-%m-%d)"
+      --tag-name "${TAG_NAME}" --ref $CI_COMMIT_SHA
       --released-at "$(date +%Y-%m-%d %H:%M:%S)"
