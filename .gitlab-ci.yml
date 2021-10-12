@@ -1,4 +1,4 @@
-image: "ubuntu"
+image: linux
 
 variables:
   BUILD_PATH: ./build
@@ -10,8 +10,8 @@ stages:
 
 build:
   stage: build
-  except:
-    - schedules
+  only:
+    - master
   script:
     - mkdir build
     - cp -r ./domain ./build
@@ -24,13 +24,10 @@ build:
     paths:
       - ${BUILD_PATH}
 
-on-schedule:
+tag:
   stage: build
-  image:
-    name: alpine/git
-    entrypoint: [""]
   only:
-    - schedules
+    - master
   script:
     - git config user.email "${GITLAB_USER_EMAIL}"
     - git config user.name "${GITLAB_USER_NAME}"
@@ -39,12 +36,9 @@ on-schedule:
     - git push demo-tag-origin "Release_$(date +%Y-%m-%d)"
 
 publish:
-  image: inetprocess/gitlab-release
   stage: publish
   only:
-    - tags
-  except:
-    - schedules
+    - master
   dependencies:
     - build
   script:
