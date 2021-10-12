@@ -5,7 +5,7 @@ stages:
   - tag
   - release
 
-create tag:
+create-tag:
   stage: tag
   only:
     - master
@@ -16,14 +16,13 @@ create tag:
     - git tag -a "${TAG_NAME}" -m "Auto-Release"
     - git push demo-tag-origin "${TAG_NAME}"
 
-create release:
+create-release:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli
-  when: manual
   only:
     - master
   dependencies:
-    - tag
+    - create-tag
   script:
     - >
       release-cli create --name "${TAG_NAME}" --description "Version ${TAG_NAME} created at $(date +%Y-%m-%d)"
