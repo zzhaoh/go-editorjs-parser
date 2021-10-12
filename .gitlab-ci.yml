@@ -17,4 +17,4 @@ package project:
   script:
     - pwd
   only:
-    - main
+    - master
