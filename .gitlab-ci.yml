@@ -1,4 +1,4 @@
-image: ubuntu
+image: node
 
 variables:
   BUILD_PATH: ./build
@@ -13,7 +13,6 @@ build:
   only:
     - master
   script:
-    - apt install git-all
     - mkdir build
     - cp -r ./domain ./build
     - cp -r ./helpers ./build
