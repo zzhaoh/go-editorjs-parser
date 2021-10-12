@@ -1,7 +1,7 @@
-image: node
+image: golang
 
 variables:
-  BUILD_PATH: ./release.zip
+  BUILD_PATH: ./build
 
 stages:
   - build
@@ -12,10 +12,7 @@ build:
   only:
     - master
   script:
-    - zip release.zip ./domain ./helpers ./parser ./pkg go.mod goEditorjsParser.go
-  artifacts:
-    paths:
-      - ${BUILD_PKG}
+    - go build goEditorParser.go
 
 tag:
   stage: build
@@ -37,4 +34,4 @@ publish:
     - build
     - tag
   script:
-    - gitlab-release --message 'Automatic release' ${BUILD_PKG}
+    - gitlab-release --message 'Automatic release' goEditorParser
