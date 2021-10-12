@@ -2,7 +2,6 @@ image: node
 
 variables:
   BUILD_PATH: ./build
-  PROJECT_NAME: go-editorjs-parser
 
 stages:
   - build
