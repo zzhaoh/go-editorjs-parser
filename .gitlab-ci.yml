@@ -7,8 +7,6 @@ stages:
 
 tag:
   stage: tag
-  dependencies:
-    - build
   only:
     - master
   script:
