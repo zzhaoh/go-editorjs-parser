@@ -1,7 +1,7 @@
 image: node
 
 variables:
-  BUILD_PATH: ./build
+  BUILD_PATH: ./release.zip
 
 stages:
   - build
@@ -12,16 +12,10 @@ build:
   only:
     - master
   script:
-    - mkdir build
-    - cp -r ./domain ./build
-    - cp -r ./helpers ./build
-    - cp -r ./parser ./build
-    - cp -r ./pkg ./build
-    - cp go.mod ./build
-    - cp goEditorjsParser.go ./build
+    - zip release.zip ./domain ./helpers ./parser ./pkg go.mod goEditorjsParser.go
   artifacts:
     paths:
-      - ${BUILD_PATH}
+      - ${BUILD_PKG}
 
 tag:
   stage: build
@@ -41,5 +35,6 @@ publish:
     - master
   dependencies:
     - build
+    - tag
   script:
-    - gitlab-release --message 'Automatic release' ${BUILD_PATH}
+    - gitlab-release --message 'Automatic release' ${BUILD_PKG}
