@@ -1,4 +1,4 @@
-image: linux
+image: ubuntu
 
 variables:
   BUILD_PATH: ./build
