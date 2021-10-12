@@ -1,20 +1,51 @@
 image: "ubuntu"
 
 variables:
-  BUILD_PATH: ./
+  BUILD_PATH: ./build
   PROJECT_NAME: go-editorjs-parser
 
 stages:
-  - package
+  - build
+  - publish
 
-package project:
-  stage: package
+build:
+  stage: build
+  except:
+    - schedules
+  script:
+    - mkdir build
+    - cp ./domain ./build
+    - cp ./helpers ./build
+    - cp ./parser ./build
+    - cp ./pkg ./build
+    - cp go.mod ./build
+    - cp goEditorjsParser.go ./build
   artifacts:
-    name: "$PROJECT_NAME-$CI_COMMIT_REF_NAME"
-    when: always
     paths:
       - ${BUILD_PATH}
-  script:
-    - pwd
+
+on-schedule:
+  stage: build
+  image:
+    name: alpine/git
+    entrypoint: [""]
   only:
-    - master
+    - schedules
+  script:
+    - git config user.email "${GITLAB_USER_EMAIL}"
+    - git config user.name "${GITLAB_USER_NAME}"
+    - git remote add demo-tag-origin https://oauth2:${GITLAB_ACCESS_TOKEN}@gitlab.com/${CI_PROJECT_PATH}
+    - git tag -a "Release_$(date +%Y-%m-%d)" -m "Auto-Release"
+    - git push demo-tag-origin "Release_$(date +%Y-%m-%d)"
+
+publish:
+  image: inetprocess/gitlab-release
+  stage: publish
+  only:
+    - tags
+  except:
+    - schedules
+  dependencies:
+    - build
+  script:
+    - gitlab-release --message 'Automatic release' ${BUILD_PATH}
