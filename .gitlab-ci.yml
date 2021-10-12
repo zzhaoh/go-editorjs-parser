@@ -7,10 +7,14 @@ variables:
 stages:
   - package
 
-package website:
+package project:
   stage: package
   artifacts:
     name: "$PROJECT_NAME-$CI_COMMIT_REF_NAME"
     when: always
     paths:
       - ${BUILD_PATH}
+  script:
+    - pwd
+  only:
+    - main
