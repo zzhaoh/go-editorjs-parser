@@ -13,6 +13,7 @@ build:
   only:
     - master
   script:
+    - apt install git
     - mkdir build
     - cp -r ./domain ./build
     - cp -r ./helpers ./build
