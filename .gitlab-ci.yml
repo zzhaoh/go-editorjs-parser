@@ -1,6 +1,3 @@
-variables:
-  TAG_NAME: "v$(date +%y.%m.%d)"
-
 stages:
   - tag
   - release
@@ -13,8 +10,8 @@ create-tag:
     - git config user.name "Rodrigo Odhin"
     - git config user.email rodrigoodhin@gmail.com
     - git remote add demo-tag-origin https://oauth2:${GITLAB_ACCESS_TOKEN}@gitlab.com/${CI_PROJECT_PATH}
-    - git tag -a "${TAG_NAME}" -m "Auto-Release"
-    - git push demo-tag-origin "${TAG_NAME}"
+    - git tag -a "v$(date +%y.%m.%d)" -m "Auto-Release"
+    - git push demo-tag-origin "v$(date +%y.%m.%d)"
 
 create-release:
   stage: release
@@ -25,6 +22,6 @@ create-release:
     - create-tag
   script:
     - >
-      release-cli create --name "${TAG_NAME}" --description "Version ${TAG_NAME} created at $(date +%Y-%m-%d)"
-      --tag-name "${TAG_NAME}" --ref $CI_COMMIT_SHA
+      release-cli create --name "v$(date +%y.%m.%d)" --description "Version v$(date +%y.%m.%d) created at $(date +%Y-%m-%d)"
+      --tag-name "v$(date +%y.%m.%d)" --ref $CI_COMMIT_SHA
       --released-at "$(date +%Y-%m-%d %H:%M:%S)"
