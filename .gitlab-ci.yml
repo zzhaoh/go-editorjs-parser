@@ -1,11 +1,19 @@
 image: golang
 
+variables:
+  BUILD_PATH: ./
+
 stages:
   - build
   - publish
 
 build:
   stage: build
+  cache:
+    key: build-package
+    policy: push
+    paths:
+      - ${BUILD_PATH}
   only:
     - master
   script:
@@ -29,6 +37,9 @@ tag:
 publish:
   image: inetprocess/gitlab-release
   stage: publish
+  cache:
+    key: build-package
+    policy: pull
   only:
     - master
   dependencies:
