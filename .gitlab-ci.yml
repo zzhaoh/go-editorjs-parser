@@ -1,19 +1,19 @@
 image: golang
 
 variables:
-  BUILD_PATH: ./
+  BUILD_FILE: go-editorjs-parser
 
 stages:
   - build
+  - tag
   - publish
 
 build:
   stage: build
-  cache:
-    key: build-package
-    policy: push
+  artifacts:
+    expire_in: '1 hour'
     paths:
-      - ${BUILD_PATH}
+      - ${BUILD_FILE}
   only:
     - master
   script:
@@ -22,11 +22,11 @@ build:
     - go build
 
 tag:
-  stage: build
-  only:
-    - master
+  stage: tag
   dependencies:
     - build
+  only:
+    - master
   script:
     - git config user.name "Rodrigo Odhin"
     - git config user.email rodrigoodhin@gmail.com
@@ -37,13 +37,10 @@ tag:
 publish:
   image: inetprocess/gitlab-release
   stage: publish
-  cache:
-    key: build-package
-    policy: pull
   only:
     - master
   dependencies:
     - build
     - tag
   script:
-    - gitlab-release --message 'Automatic release' ./go-editorjs-parser
+    - gitlab-release --message 'Automatic release' ${BUILD_FILE}
