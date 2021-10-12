@@ -46,4 +46,4 @@ publish:
     - build
     - tag
   script:
-    - gitlab-release --message 'Automatic release' go-editorjs-parser
+    - gitlab-release --message 'Automatic release' ./go-editorjs-parser
