@@ -5,35 +5,47 @@ import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
+	"os"
 	"reflect"
 	"strings"
 )
 
-func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
-	var libs []string
-	var result []string
-	var blockScripts []string
-	var styles []string
-	var scripts []string
-	var style string
+var (
+	result       []string
+	styles       []string
+	scripts      []string
+	style        string
+)
 
-	if reflect.DeepEqual(helpers.SM,domain.StyleMap{}) {
+func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
+	if reflect.DeepEqual(helpers.SM, domain.StyleMap{}) {
 		helpers.LoadStyleMap("./support/styles/default.json")
+	}
+
+	if helpers.SM.StyleName == helpers.Default {
+		styles = append(styles, string(helpers.MinifyLib("default.css", "css")))
+	} else if helpers.SM.StyleName == helpers.Bootstrap5 {
+		styles = append(styles, string(helpers.LoadLib("bootstrap5.min.css")))
+	} else {
+		styleMinified, err := helpers.MinifyExternalStyle(styleToUse)
+		if string(styleMinified) != "" && err == nil {
+			styles = append(styles, string(styleMinified))
+		} else {
+			log.Println("It was not possible to read the external style file\n", err)
+		}
 	}
 
 	input, err := helpers.ReadJsonFile(jsonFilePath)
 	if err != nil {
-		log.Println("It was not possible to read the input json file\n",err)
+		log.Println("It was not possible to read the input json file\n", err)
 	}
 
 	editorJSON := helpers.ParseEditorJSON(input)
 
 	for _, el := range editorJSON.Blocks {
 
-		_, found := helpers.Find(libs, el.Type)
-		if !found {
-			libs = append(libs, strings.ToLower(el.Type))
-		}
+		appendStyleLibs(el)
+		appendScriptLibs(el)
 
 		result = append(result, helpers.Separator(helpers.SM.SpaceBetweenBlocks))
 
@@ -44,8 +56,7 @@ func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
 		case "header":
 			result = append(result, html.Header(content.(*domain.EditorJSDataHeader)))
 		case "paragraph":
-			result =
-				append(result, html.Paragraph(content.(*domain.EditorJSDataParagraph)))
+			result = append(result, html.Paragraph(content.(*domain.EditorJSDataParagraph)))
 		case "quote":
 			result = append(result, html.Quote(content.(*domain.EditorJSDataQuote)))
 		case "warning":
@@ -77,51 +88,52 @@ func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
 		case "imageGallery":
 			imgRes, imgScript := html.ImageGallery(content.(*domain.EditorJSDataImageGallery))
 			result = append(result, imgRes)
-			blockScripts = append(blockScripts, imgScript)
+			appendBlockScript(imgScript)
 		}
 
 	}
 
 	result = append(result, helpers.Separator(helpers.SM.SpaceBetweenBlocks))
 
-	if helpers.SM.StyleName == "default" {
-		styles = append(styles, string(helpers.MinifyLib("default.css", "css")))
-	} else if helpers.SM.StyleName == "bootstrap5" {
-		styles = append(styles, string(helpers.LoadLib("bootstrap5.min.css")))
-	} else {
-		styleMinified, err := helpers.MinifyExternalStyle(styleToUse)
-		if string(styleMinified) != "" && err == nil {
-			styles = append(styles, string(styleMinified))
-		} else {
-			log.Println("It was not possible to read the external style file\n",err)
-		}
-	}
-
 	style = "\n<style>\n" + strings.Join(styles[:], "\n") + "\n</style>\n\n"
-
-	for _, lib := range libs {
-		scriptMinified := string(helpers.MinifyLib(lib + "/" + lib + ".js", "js"))
-		if scriptMinified != "" {
-			scripts = append(scripts, scriptMinified)
-		}
-	}
-
-	for _, blockScript := range blockScripts {
-		blockScriptMinified, _ := helpers.MinifyContent([]byte(blockScript), "js")
-		blockScriptMinifiedStr := string(blockScriptMinified)
-		if blockScriptMinifiedStr != "" {
-			scripts = append(scripts, blockScriptMinifiedStr)
-		}
-	}
-
 	script := "\n\n<script>\n" + strings.Join(scripts[:], "\n") + "\n</script>\n\n"
 
 	content := style + strings.Join(result[:], "\n\n") + script
 
 	err = helpers.WriteOutputFile(outputFilePath, content, "html")
 	if err != nil {
-		log.Println("It was not possible to write the output html file\n",err)
+		log.Println("It was not possible to write the output html file\n", err)
 	}
 
 	return
+}
+
+func appendStyleLibs(block domain.EditorJSBlock) {
+	libName := strings.ToLower(block.Type)
+	libPath := "support/helpers/libs/" +libName + "/"
+	if _, err := os.Stat(libPath); !os.IsNotExist(err) {
+		styleMinified := string(helpers.MinifyLib(libName + "/" + libName + ".css", "css"))
+		if styleMinified != "" {
+			styles = append(styles, styleMinified)
+		}
+	}
+}
+
+func appendScriptLibs(block domain.EditorJSBlock) {
+	libName := strings.ToLower(block.Type)
+	libPath := "support/helpers/libs/" + libName
+	if _, err := os.Stat(libPath); !os.IsNotExist(err) {
+		scriptMinified := string(helpers.MinifyLib(libName + "/" + libName+  ".js", "js"))
+		if scriptMinified != "" {
+			scripts = append(scripts, scriptMinified)
+		}
+	}
+}
+
+func appendBlockScript(blockScript string) {
+	blockScriptMinified, _ := helpers.MinifyContent([]byte(blockScript), "js")
+	blockScriptMinifiedStr := string(blockScriptMinified)
+	if blockScriptMinifiedStr != "" {
+		scripts = append(scripts, blockScriptMinifiedStr)
+	}
 }

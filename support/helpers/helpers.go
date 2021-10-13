@@ -17,6 +17,11 @@ import (
 	"strings"
 )
 
+const (
+	Default = "default"
+	Bootstrap5 = "bootstrap5"
+)
+
 var SM domain.StyleMap
 
 //go:embed libs/*
