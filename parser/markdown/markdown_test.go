@@ -1,9 +1,8 @@
 package markdown
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/helpers"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"strconv"
 
 	"testing"
@@ -29,7 +28,7 @@ func TestHeaderBlock(t *testing.T) {
     ]
 }`
 
-		editorJSON1 := parser.ParseEditorJSON(input1)
+		editorJSON1 := helpers.ParseEditorJSON(input1)
 		content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 		expected1 := header1+ `Level `+level+` Header`
@@ -57,7 +56,7 @@ func TestHeaderBlock(t *testing.T) {
     ]
 }`
 
-		editorJSON1 := parser.ParseEditorJSON(input1)
+		editorJSON1 := helpers.ParseEditorJSON(input1)
 		content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 		expected1 := header2+ `Level `+level+` Header`
@@ -80,7 +79,7 @@ func TestParagraphBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON1 := parser.ParseEditorJSON(input1)
+	editorJSON1 := helpers.ParseEditorJSON(input1)
 	content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `I am a paragraph!`
@@ -99,7 +98,7 @@ func TestParagraphBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON2 := parser.ParseEditorJSON(input2)
+	editorJSON2 := helpers.ParseEditorJSON(input2)
 	content2 := helpers.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `I am a paragraph!`
@@ -121,7 +120,7 @@ func TestQuoteBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `> The journey of a thousand miles begins with one step.
@@ -144,7 +143,7 @@ func TestWarningBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `> Note:
@@ -175,7 +174,7 @@ func TestAlertBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `
@@ -202,7 +201,7 @@ func TestListBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON1 := parser.ParseEditorJSON(input1)
+	editorJSON1 := helpers.ParseEditorJSON(input1)
 	content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `- This is a block-styled editor
@@ -287,7 +286,7 @@ func TestListBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON2 := parser.ParseEditorJSON(input2)
+	editorJSON2 := helpers.ParseEditorJSON(input2)
 	content2 := helpers.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `1. Cars
@@ -333,7 +332,7 @@ func TestChecklistBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `- [x] This is a block-styled editor
@@ -372,7 +371,7 @@ func TestTableBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON1 := parser.ParseEditorJSON(input1)
+	editorJSON1 := helpers.ParseEditorJSON(input1)
 	content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `| Kine | Pigs | Chicken |
@@ -409,7 +408,7 @@ func TestTableBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON2 := parser.ParseEditorJSON(input2)
+	editorJSON2 := helpers.ParseEditorJSON(input2)
 	content2 := helpers.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `| | | |
@@ -434,7 +433,7 @@ func TestAnyButtonBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `[editorjs official](https://editorjs.io/)`
@@ -454,7 +453,7 @@ func TestCodeBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON1 := parser.ParseEditorJSON(input1)
+	editorJSON1 := helpers.ParseEditorJSON(input1)
 	content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := "```\nbody {\n font-size: 14px;\n line-height: 16px;\n}\n```"
@@ -473,7 +472,7 @@ func TestCodeBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON2 := parser.ParseEditorJSON(input2)
+	editorJSON2 := helpers.ParseEditorJSON(input2)
 	content2 := helpers.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := "```css\nbody {\n font-size: 14px;\n line-height: 16px;\n}\n```"
@@ -493,7 +492,7 @@ func TestRawBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := "```\n<div style=\"background: #000; color: #fff; font-size: 30px; padding: 50px;\">Any HTML code</div>\n```"
@@ -519,7 +518,7 @@ func TestImageBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON1 := parser.ParseEditorJSON(input1)
+	editorJSON1 := helpers.ParseEditorJSON(input1)
 	content1 := helpers.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `![Roadster // tesla.com](https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg)`
@@ -541,7 +540,7 @@ func TestImageBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON2 := parser.ParseEditorJSON(input2)
+	editorJSON2 := helpers.ParseEditorJSON(input2)
 	content2 := helpers.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `![Roadster // tesla.com](https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg)`
@@ -569,7 +568,7 @@ func TestLinkToolBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `---
@@ -605,7 +604,7 @@ func TestAttachesBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `---
@@ -638,7 +637,7 @@ func TestEmbedBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `---
@@ -679,7 +678,7 @@ func TestImageGalleryBlock(t *testing.T) {
     ]
 }`
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 	content := helpers.PrepareData(editorJSON.Blocks[0])
 
 	expected := `---

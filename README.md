@@ -34,7 +34,7 @@ import (
 func main() {
 
     // Parse a EditorJS JSOn file to HTML file
-    html.Parser("JSON/FILE/PATH", "NEW/HTML/FILE/PATH", "CSS/STYLE/FILE/PATH", 20)
+    html.Parser("JSON/FILE/PATH", "NEW/HTML/FILE/PATH", "CSS/STYLE/FILE/PATH")
 
     // Parse a EditorJS JSOn file to MARKDOWN file
     markdown.Parser("JSON/FILE/PATH", "NEW/MARKDOWN/FILE/PATH")
@@ -48,10 +48,9 @@ go build goEditorjsParser.go
 
 Usage of goEditorjsParser
 ```
-./goEditorjsParser -j <JSONFilePath> -s <SeparatorSize> -c <StylePath> -o <OutputFilePath> -t <OutputFileType>
+./goEditorjsParser -j <JSONFilePath> -c <StylePath> -o <OutputFilePath> -t <OutputFileType>
 
 -j = Path to a JSON file. MANDATORY
--s = Separator size (in pixels) between blocks. Default 20
 -c = Style CSS path to be used. If not set, the default style will be used
 -o = Output file path. If not set, root path will be used
 -t = Output file type. Possible values: markdown or html
@@ -60,10 +59,9 @@ Usage of goEditorjsParser
 Example:
 ```
 ./goEditorjsParser -j Input.json
-./goEditorjsParser -j Input.json -s 30 
-./goEditorjsParser -j Input.json -s 15 -c Style.css
-./goEditorjsParser -j Input.json -s 10 -c Style.css -o output/
-./goEditorjsParser -j Input.json -s 10 -c Style.css -o output/ -t html
+./goEditorjsParser -j Input.json -c Style.css
+./goEditorjsParser -j Input.json -c Style.css -o output/
+./goEditorjsParser -j Input.json -c Style.css -o output/ -t html
 ```
 
 &nbsp;

@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	err := html.Parser("./example/example.json", "","./example/example.css",20)
+	err := html.Bootstrap5("./example/example.json", "","default")
 	if err != nil {
 		log.Println("It was not possible to parse json to html file\n",err)
 		return

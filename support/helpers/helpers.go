@@ -7,7 +7,7 @@ import (
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/js"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/domain"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
 	"io/ioutil"
 	"log"
 	"math"
@@ -17,13 +17,15 @@ import (
 	"strings"
 )
 
+var SM domain.StyleMap
+
 //go:embed libs/*
 var libsFiles embed.FS
 
 func ReadJsonFile(jsonFilePath string) (jsonData string, err error) {
 	data, err := ioutil.ReadFile(jsonFilePath)
 	if err != nil {
-		log.Println("Error reading the input json file\n",err)
+		log.Println("Error reading the input json file\n", err)
 	}
 
 	jsonData = string(data)
@@ -31,12 +33,21 @@ func ReadJsonFile(jsonFilePath string) (jsonData string, err error) {
 	return
 }
 
+func LoadLib(libFile string) (contentFile []byte) {
+	contentFile, err := ioutil.ReadFile("support/helpers/libs/" + libFile)
+	if err != nil {
+		log.Println("Error loading lib file\n", err)
+	}
+
+	return
+}
+
 func MinifyLib(libPath, libType string) (contentMinified []byte) {
-	contentFile, err := libsFiles.ReadFile(libPath)
+	contentFile, err := libsFiles.ReadFile("libs/"+libPath)
 	if err == nil {
-		contentMinified, err = MinifyContent(contentFile,libType)
+		contentMinified, err = MinifyContent(contentFile, libType)
 		if err != nil {
-			log.Println("Error minifying internal lib file\n",err)
+			log.Println("Error minifying lib file\n", err)
 		}
 	}
 
@@ -46,9 +57,9 @@ func MinifyLib(libPath, libType string) (contentMinified []byte) {
 func MinifyExternalStyle(libPath string) (contentMinified []byte, err error) {
 	contentFile, err := ioutil.ReadFile(libPath)
 	if err == nil {
-		contentMinified, err = MinifyContent(contentFile,"css")
+		contentMinified, err = MinifyContent(contentFile, "css")
 		if err != nil {
-			log.Println("Error minifying external lib file\n",err)
+			log.Println("Error minifying external lib file\n", err)
 		}
 	}
 
@@ -65,14 +76,14 @@ func MinifyContent(content []byte, format string) (contentMinified []byte, err e
 		m.AddFunc("text/css", css.Minify)
 		contentMinified, err = m.Bytes("text/css", content)
 		if err != nil {
-			log.Println("Error minifying CSS file\n",err)
+			log.Println("Error minifying CSS file\n", err)
 		}
 
 	case "js":
 		m.AddFuncRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), js.Minify)
 		contentMinified, err = m.Bytes("application/javascript", content)
 		if err != nil {
-			log.Println("Error minifying JS file\n",err)
+			log.Println("Error minifying JS file\n", err)
 		}
 	}
 
@@ -88,22 +99,26 @@ func Find(slice []string, val string) (int, bool) {
 	return -1, false
 }
 
-func CreateHTMLNestedList(items []domain.NestedListItem, listStyle string) string {
+func CreateHTMLNestedList(items []domain.NestedListItem, listStyle string, first bool) string {
 	var result []string
 
-	result = append(result, "<"+listStyle+">")
-
-	for _, item := range items {
-		result = append(result, "<li>"+item.Content)
-
-		if len(item.Items) > 0 {
-			result = append(result, CreateHTMLNestedList(item.Items, listStyle))
-		}
-
-		result = append(result, "</li>")
+	if first {
+		result = append(result, `<` + listStyle + ` class="` + SM.List.Group + `">`)
+	} else {
+		result = append(result, `<` + listStyle + ` class="` + SM.List.NestedGroup + `">`)
 	}
 
-	result = append(result, "</"+listStyle+">")
+	for _, item := range items {
+		result = append(result, `<li class="` + SM.List.Item + `">` + item.Content + `</li>`)
+
+		if len(item.Items) > 0 {
+			result = append(result, CreateHTMLNestedList(item.Items, listStyle, false))
+		}
+
+		result = append(result, `</li>`)
+	}
+
+	result = append(result, `</` + listStyle + `>`)
 
 	return strings.Join(result[:], "\n")
 }
@@ -131,7 +146,7 @@ func CreateMarkDownNestedList(items []domain.NestedListItem, listStyle, spaceLef
 func PrepareData(el domain.EditorJSBlock) (data interface{}) {
 	jsonData, err := json.Marshal(el.Data)
 	if err != nil {
-		log.Println("Error when trying to marshall EditorJS block data\n",err)
+		log.Println("Error when trying to marshall EditorJS block data\n", err)
 	}
 
 	switch el.Type {
@@ -172,15 +187,14 @@ func PrepareData(el domain.EditorJSBlock) (data interface{}) {
 
 	err = json.Unmarshal(jsonData, &data)
 	if err != nil {
-		log.Println("Error when trying to unmarshall EditorJS block data\n",err)
+		log.Println("Error when trying to unmarshall EditorJS block data\n", err)
 	}
 
 	return
 }
 
-func Separator(size int) string {
-	style := `width: 100%; height: ` + strconv.Itoa(size) + `px`
-	return `<div style="` + style + `"></div>`
+func Separator(class string) string {
+	return `<div class="` + class + `">&nbsp;</div>`
 }
 
 func HumanFileSize(fileSize float64) string {
@@ -222,7 +236,32 @@ func WriteOutputFile(outputFilePath, outputContent, outputType string) (err erro
 
 	err = os.WriteFile(outputPath, []byte(outputContent), 0644)
 	if err != nil {
-		log.Println("Error writing the output file\n",err)
+		log.Println("Error writing the output file\n", err)
+	}
+
+	return
+}
+
+func ParseEditorJSON(editorJS string) domain.EditorJS {
+	var result domain.EditorJS
+
+	err := json.Unmarshal([]byte(editorJS), &result)
+	if err != nil {
+		log.Fatal("Error unmarshalling the input json file\n", err)
+	}
+
+	return result
+}
+
+func LoadStyleMap(path string) {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal("Error reading the style config json file\n", err)
+	}
+
+	err = json.Unmarshal(content, &SM)
+	if err != nil {
+		log.Fatal("Error unmarshalling the style config json file\n", err)
 	}
 
 	return

@@ -1,10 +1,9 @@
 package markdown
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/helpers"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/markdown"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
 	"strings"
 )
@@ -17,7 +16,7 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 		log.Println("It was not possible to read the input json file\n",err)
 	}
 
-	editorJSAST := parser.ParseEditorJSON(input)
+	editorJSAST := helpers.ParseEditorJSON(input)
 
 	for _, el := range editorJSAST.Blocks {
 

@@ -3,8 +3,8 @@ package markdown
 import (
 	"encoding/json"
 	"fmt"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/helpers"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
 	"strconv"
 	"strings"

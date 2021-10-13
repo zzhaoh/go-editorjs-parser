@@ -367,6 +367,27 @@
         "height" : 315,
         "caption" : "Lamborghini Aventador SVJ"
       }
+    },
+    {
+      "type": "imageGallery",
+      "data": {
+        "urls": [
+          "https://www.nawpic.com/media/2020/ocean-nawpic-15.jpg",
+          "https://www.nawpic.com/media/2020/ocean-nawpic-18.jpg",
+          "https://wallpapercave.com/wp/6L4TVMP.jpg",
+          "https://wallpapercave.com/wp/wp9810772.jpg",
+          "https://wallpapercave.com/wp/wp9121482.jpg",
+          "https://wallpapercave.com/wp/wp9100484.jpg",
+          "https://cdn.wallpapersafari.com/94/22/4H3mFp.jpg"
+        ],
+        "editImages": true,
+        "bkgMode": false,
+        "layoutDefault": true,
+        "layoutHorizontal": false,
+        "layoutSquare": false,
+        "layoutWithGap": false,
+        "layoutWithFixedSize": false
+      }
     }
   ],
   "version": "2.18.0"

@@ -1,15 +1,15 @@
 package html
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/helpers"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
+	"reflect"
 	"strings"
 )
 
-func Parser(jsonFilePath, outputFilePath, styleToUse string, separatorSize int) (err error) {
+func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
 	var libs []string
 	var result []string
 	var blockScripts []string
@@ -17,12 +17,16 @@ func Parser(jsonFilePath, outputFilePath, styleToUse string, separatorSize int) 
 	var scripts []string
 	var style string
 
+	if reflect.DeepEqual(helpers.SM,domain.StyleMap{}) {
+		helpers.LoadStyleMap("./support/styles/default.json")
+	}
+
 	input, err := helpers.ReadJsonFile(jsonFilePath)
 	if err != nil {
 		log.Println("It was not possible to read the input json file\n",err)
 	}
 
-	editorJSON := parser.ParseEditorJSON(input)
+	editorJSON := helpers.ParseEditorJSON(input)
 
 	for _, el := range editorJSON.Blocks {
 
@@ -31,7 +35,7 @@ func Parser(jsonFilePath, outputFilePath, styleToUse string, separatorSize int) 
 			libs = append(libs, strings.ToLower(el.Type))
 		}
 
-		result = append(result, helpers.Separator(separatorSize))
+		result = append(result, helpers.Separator(helpers.SM.SpaceBetweenBlocks))
 
 		content := helpers.PrepareData(el)
 
@@ -40,7 +44,8 @@ func Parser(jsonFilePath, outputFilePath, styleToUse string, separatorSize int) 
 		case "header":
 			result = append(result, html.Header(content.(*domain.EditorJSDataHeader)))
 		case "paragraph":
-			result = append(result, html.Paragraph(content.(*domain.EditorJSDataParagraph)))
+			result =
+				append(result, html.Paragraph(content.(*domain.EditorJSDataParagraph)))
 		case "quote":
 			result = append(result, html.Quote(content.(*domain.EditorJSDataQuote)))
 		case "warning":
@@ -77,19 +82,12 @@ func Parser(jsonFilePath, outputFilePath, styleToUse string, separatorSize int) 
 
 	}
 
-	result = append(result, helpers.Separator(separatorSize))
+	result = append(result, helpers.Separator(helpers.SM.SpaceBetweenBlocks))
 
-	if styleToUse == "default" {
-		styles = append(styles, string(helpers.MinifyLib("libs/default.css", "css")))
-
-		for _, lib := range libs {
-			if styleToUse == "default" {
-				styleMinified := string(helpers.MinifyLib("libs/" + lib + "/" + lib + ".css", "css"))
-				if styleMinified != "" {
-					styles = append(styles, styleMinified)
-				}
-			}
-		}
+	if helpers.SM.StyleName == "default" {
+		styles = append(styles, string(helpers.MinifyLib("default.css", "css")))
+	} else if helpers.SM.StyleName == "bootstrap5" {
+		styles = append(styles, string(helpers.LoadLib("bootstrap5.min.css")))
 	} else {
 		styleMinified, err := helpers.MinifyExternalStyle(styleToUse)
 		if string(styleMinified) != "" && err == nil {
@@ -102,7 +100,7 @@ func Parser(jsonFilePath, outputFilePath, styleToUse string, separatorSize int) 
 	style = "\n<style>\n" + strings.Join(styles[:], "\n") + "\n</style>\n\n"
 
 	for _, lib := range libs {
-		scriptMinified := string(helpers.MinifyLib("libs/" + lib + "/" + lib + ".js", "js"))
+		scriptMinified := string(helpers.MinifyLib(lib + "/" + lib + ".js", "js"))
 		if scriptMinified != "" {
 			scripts = append(scripts, scriptMinified)
 		}
