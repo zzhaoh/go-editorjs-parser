@@ -2,8 +2,9 @@ package html
 
 import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
 	"os"
 	"reflect"
@@ -17,17 +18,17 @@ var (
 	style        string
 )
 
-func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
-	if reflect.DeepEqual(helpers.SM, domain.StyleMap{}) {
-		helpers.LoadStyleMap("./support/styles/default.json")
+func Default(jsonFilePath, outputFilePath string) (err error) {
+	if reflect.DeepEqual(support.SM, domain.StyleMap{}) {
+		support.LoadStyleMap(config.DefaultJSONFile)
 	}
 
-	if helpers.SM.StyleName == helpers.Default {
-		styles = append(styles, string(helpers.MinifyLib("default.css", "css")))
-	} else if helpers.SM.StyleName == helpers.Bootstrap5 {
-		styles = append(styles, string(helpers.LoadLib("bootstrap5.min.css")))
+	if support.SM.StyleName == config.DefaultStyleName {
+		styles = append(styles, string(support.MinifyStyle(config.DefaultCSSFile, "css")))
+	} else if support.SM.StyleName == config.Bootstrap5StyleName {
+		styles = append(styles, string(support.LoadStyle(config.Bootstrap5CSSFile)))
 	} else {
-		styleMinified, err := helpers.MinifyExternalStyle(styleToUse)
+		styleMinified, err := support.MinifyExternalStyle(support.SM.LibraryPath)
 		if string(styleMinified) != "" && err == nil {
 			styles = append(styles, string(styleMinified))
 		} else {
@@ -35,21 +36,20 @@ func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
 		}
 	}
 
-	input, err := helpers.ReadJsonFile(jsonFilePath)
+	input, err := support.ReadJsonFile(jsonFilePath)
 	if err != nil {
 		log.Println("It was not possible to read the input json file\n", err)
 	}
 
-	editorJSON := helpers.ParseEditorJSON(input)
+	editorJSON := support.ParseEditorJSON(input)
 
 	for _, el := range editorJSON.Blocks {
 
-		appendStyleLibs(el)
-		appendScriptLibs(el)
+		appendLibs(el)
 
-		result = append(result, helpers.Separator(helpers.SM.SpaceBetweenBlocks))
+		result = append(result, support.Separator(support.SM.SpaceBetweenBlocks))
 
-		content := helpers.PrepareData(el)
+		content := support.PrepareData(el)
 
 		switch el.Type {
 
@@ -93,14 +93,14 @@ func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
 
 	}
 
-	result = append(result, helpers.Separator(helpers.SM.SpaceBetweenBlocks))
+	result = append(result, support.Separator(support.SM.SpaceBetweenBlocks))
 
 	style = "\n<style>\n" + strings.Join(styles[:], "\n") + "\n</style>\n\n"
 	script := "\n\n<script>\n" + strings.Join(scripts[:], "\n") + "\n</script>\n\n"
 
 	content := style + strings.Join(result[:], "\n\n") + script
 
-	err = helpers.WriteOutputFile(outputFilePath, content, "html")
+	err = support.WriteOutputFile(outputFilePath, content, "html")
 	if err != nil {
 		log.Println("It was not possible to write the output html file\n", err)
 	}
@@ -108,22 +108,16 @@ func Default(jsonFilePath, outputFilePath, styleToUse string) (err error) {
 	return
 }
 
-func appendStyleLibs(block domain.EditorJSBlock) {
+func appendLibs(block domain.EditorJSBlock) {
 	libName := strings.ToLower(block.Type)
-	libPath := "support/helpers/libs/" +libName + "/"
+	libPath := config.LibsPath +libName + "/"
 	if _, err := os.Stat(libPath); !os.IsNotExist(err) {
-		styleMinified := string(helpers.MinifyLib(libName + "/" + libName + ".css", "css"))
+		styleMinified := string(support.MinifyLib(libName + "/" + libName + ".css", "css"))
 		if styleMinified != "" {
 			styles = append(styles, styleMinified)
 		}
-	}
-}
 
-func appendScriptLibs(block domain.EditorJSBlock) {
-	libName := strings.ToLower(block.Type)
-	libPath := "support/helpers/libs/" + libName
-	if _, err := os.Stat(libPath); !os.IsNotExist(err) {
-		scriptMinified := string(helpers.MinifyLib(libName + "/" + libName+  ".js", "js"))
+		scriptMinified := string(support.MinifyLib(libName + "/" + libName + ".js", "js"))
 		if scriptMinified != "" {
 			scripts = append(scripts, scriptMinified)
 		}
@@ -131,7 +125,7 @@ func appendScriptLibs(block domain.EditorJSBlock) {
 }
 
 func appendBlockScript(blockScript string) {
-	blockScriptMinified, _ := helpers.MinifyContent([]byte(blockScript), "js")
+	blockScriptMinified, _ := support.MinifyContent([]byte(blockScript), "js")
 	blockScriptMinifiedStr := string(blockScriptMinified)
 	if blockScriptMinifiedStr != "" {
 		scripts = append(scripts, blockScriptMinifiedStr)

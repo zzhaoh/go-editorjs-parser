@@ -3,8 +3,8 @@ package markdown
 import (
 	"encoding/json"
 	"fmt"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
 	"strconv"
 	"strings"
@@ -67,7 +67,7 @@ func List(el *domain.EditorJSDataList) string {
 
 	err = json.Unmarshal(items, &itemsList)
 	if err == nil {
-		result = append(result, helpers.CreateMarkDownNestedList(itemsList, el.Style, ""))
+		result = append(result, support.CreateMarkDownNestedList(itemsList, el.Style, ""))
 
 	} else {
 		if el.Style == "unordered" {
@@ -218,7 +218,7 @@ func Attaches(el *domain.EditorJSDataAttaches) string {
 	result = append(result, "")
 	result = append(result, `### `+el.File.Name)
 	result = append(result, "")
-	result = append(result, `###### `+helpers.HumanFileSize(el.File.Size))
+	result = append(result, `###### `+support.HumanFileSize(el.File.Size))
 	result = append(result, "")
 	result = append(result, `[Download](`+el.File.URL+`)`)
 	result = append(result, "")

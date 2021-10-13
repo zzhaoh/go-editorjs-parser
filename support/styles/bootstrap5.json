@@ -1,11 +1,21 @@
 {
   "styleName": "bootstrap5",
+  "libraryPath": "",
   "spaceBetweenBlocks": "col-md-3 col-sm-3 col-xs-3",
   "alignment": {
     "left": "text-start",
     "center": "text-center",
     "right": "text-end"
   },
+  "header": {
+    "h1": "",
+    "h2": "",
+    "h3": "",
+    "h4": "",
+    "h5": "",
+    "h6": ""
+  },
+  "paragraph": "",
   "quote": {
     "figure": "",
     "blockquote": "blockquote",

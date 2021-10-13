@@ -2,8 +2,8 @@ package markdown
 
 import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/markdown"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/helpers"
 	"log"
 	"strings"
 )
@@ -11,16 +11,16 @@ import (
 func Parser(jsonFilePath, outputFilePath string) (err error) {
 	var result []string
 
-	input, err := helpers.ReadJsonFile(jsonFilePath)
+	input, err := support.ReadJsonFile(jsonFilePath)
 	if err != nil {
 		log.Println("It was not possible to read the input json file\n",err)
 	}
 
-	editorJSAST := helpers.ParseEditorJSON(input)
+	editorJSAST := support.ParseEditorJSON(input)
 
 	for _, el := range editorJSAST.Blocks {
 
-		content := helpers.PrepareData(el)
+		content := support.PrepareData(el)
 
 		switch el.Type {
 
@@ -64,7 +64,7 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 
 	content := strings.Join(result[:], "\n\n")
 
-	err = helpers.WriteOutputFile(outputFilePath, content, "markdown")
+	err = support.WriteOutputFile(outputFilePath, content, "markdown")
 	if err != nil {
 		log.Println("It was not possible to write the output markdown file\n",err)
 	}

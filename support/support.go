@@ -1,4 +1,4 @@
-package helpers
+package support
 
 import (
 	"embed"
@@ -17,15 +17,13 @@ import (
 	"strings"
 )
 
-const (
-	Default = "default"
-	Bootstrap5 = "bootstrap5"
-)
-
 var SM domain.StyleMap
 
 //go:embed libs/*
 var libsFiles embed.FS
+
+//go:embed styles/*
+var stylesFiles embed.FS
 
 func ReadJsonFile(jsonFilePath string) (jsonData string, err error) {
 	data, err := ioutil.ReadFile(jsonFilePath)
@@ -38,21 +36,33 @@ func ReadJsonFile(jsonFilePath string) (jsonData string, err error) {
 	return
 }
 
-func LoadLib(libFile string) (contentFile []byte) {
-	contentFile, err := ioutil.ReadFile("support/helpers/libs/" + libFile)
-	if err != nil {
-		log.Println("Error loading lib file\n", err)
+func MinifyLib(libPath, libType string) (contentMinified []byte) {
+	contentFile, err := libsFiles.ReadFile("libs/" + libPath)
+	if err == nil {
+		contentMinified, err = MinifyContent(contentFile, libType)
+		if err != nil {
+			log.Println("Error minifying lib file\n", err)
+		}
 	}
 
 	return
 }
 
-func MinifyLib(libPath, libType string) (contentMinified []byte) {
-	contentFile, err := libsFiles.ReadFile("libs/"+libPath)
+func LoadStyle(styleFile string) (contentFile []byte) {
+	contentFile, err := stylesFiles.ReadFile("styles/" + styleFile)
+	if err != nil {
+		log.Println("Error loading style file\n", err)
+	}
+
+	return
+}
+
+func MinifyStyle(stylePath, styleType string) (contentMinified []byte) {
+	contentFile, err := stylesFiles.ReadFile("styles/" + stylePath)
 	if err == nil {
-		contentMinified, err = MinifyContent(contentFile, libType)
+		contentMinified, err = MinifyContent(contentFile, styleType)
 		if err != nil {
-			log.Println("Error minifying lib file\n", err)
+			log.Println("Error minifying style file\n", err)
 		}
 	}
 
@@ -259,9 +269,20 @@ func ParseEditorJSON(editorJS string) domain.EditorJS {
 }
 
 func LoadStyleMap(path string) {
+	content := LoadStyle(path)
+
+	err := json.Unmarshal(content, &SM)
+	if err != nil {
+		log.Fatal("Error unmarshalling the style config json file\n", err)
+	}
+
+	return
+}
+
+func LoadExternalStyleMap(path string) {
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatal("Error reading the style config json file\n", err)
+		log.Println("Error reading the external style file\n", err)
 	}
 
 	err = json.Unmarshal(content, &SM)
