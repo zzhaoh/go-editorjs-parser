@@ -1,6 +1,8 @@
 {
   "styleName": "default",
-  "libraryPath": "",
+  "libraryPaths": [
+    "default.min.css"
+  ],
   "spaceBetweenBlocks": "space-between-blocks",
   "alignment": {
     "left": "alignment_text_left",

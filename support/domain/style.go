@@ -2,7 +2,7 @@ package domain
 
 type StyleMap struct {
 	StyleName          string            `json:"styleName"`
-	LibraryPath        string            `json:"libraryPath"`
+	LibraryPaths       []string          `json:"libraryPaths"`
 	SpaceBetweenBlocks string            `json:"spaceBetweenBlocks"`
 	Alignment          map[string]string `json:"alignment"`
 	Header             map[string]string `json:"header"`

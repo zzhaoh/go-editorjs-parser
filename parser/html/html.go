@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+
+
 func Header(el *domain.EditorJSDataHeader) string {
 	anchor := ""
 	if el.Anchor != "" {
@@ -35,9 +37,9 @@ func Paragraph(el *domain.EditorJSDataParagraph) string {
 }
 
 func Quote(el *domain.EditorJSDataQuote) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<figure class="` + support.SM.Quote.Figure + ` ` + support.SM.Alignment[el.Alignment] + `">`,
+	output = append(output, `<figure class="` + support.SM.Quote.Figure + ` ` + support.SM.Alignment[el.Alignment] + `">`,
 		`<blockquote class="` + support.SM.Quote.Blockquote + `">`,
 		el.Text,
 		`</blockquote>`,
@@ -46,42 +48,42 @@ func Quote(el *domain.EditorJSDataQuote) string {
 		`</figcaption>`,
 		`</figure>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Warning(el *domain.EditorJSDataWarning) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<div class="` + support.SM.Warning + `">`,
+	output = append(output, `<div class="` + support.SM.Warning + `">`,
 		`<b>`,
 		el.Title,
 		`</b>`,
 		el.Message,
 		`</div>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Delimiter() string {
-	var result []string
+	var output []string
 
-	result = append(result, `<div class="` + support.SM.Delimiter + `">***</div>`)
+	output = append(output, `<div class="` + support.SM.Delimiter + `">***</div>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Alert(el *domain.EditorJSDataAlert) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<div class="` + support.SM.Alert["box"] + ` ` + support.SM.Alert[el.Type] + `">`,
+	output = append(output, `<div class="` + support.SM.Alert["box"] + ` ` + support.SM.Alert[el.Type] + `">`,
 		el.Message,
 		`</div>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func List(el *domain.EditorJSDataList) string {
-	var result []string
+	var output []string
 
 	listStyle := "ol"
 	if el.Style == "unordered" {
@@ -97,22 +99,22 @@ func List(el *domain.EditorJSDataList) string {
 
 	err = json.Unmarshal(items, &itemsList)
 	if err == nil {
-		result = append(result, support.CreateHTMLNestedList(itemsList, listStyle, true))
+		output = append(output, support.CreateHTMLNestedList(itemsList, listStyle, true))
 	} else {
-		result = append(result, `<` + listStyle + ` class="` + support.SM.List.Group + `">`)
+		output = append(output, `<` + listStyle + ` class="` + support.SM.List.Group + `">`)
 
 		for _, item := range el.Items {
-			result = append(result, `<li class="` + support.SM.List.Item + `">` + fmt.Sprintf("%v", item) + `</li>`)
+			output = append(output, `<li class="` + support.SM.List.Item + `">` + fmt.Sprintf("%v", item) + `</li>`)
 		}
 
-		result = append(result, `</` + listStyle + `>`)
+		output = append(output, `</` + listStyle + `>`)
 	}
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Checklist(el *domain.EditorJSDataChecklist) string {
-	var result []string
+	var output []string
 
 	items, err := json.Marshal(el.Items)
 	if err != nil {
@@ -123,34 +125,34 @@ func Checklist(el *domain.EditorJSDataChecklist) string {
 
 	err = json.Unmarshal(items, &itemsList)
 	if err == nil {
-		result = append(result, `<div class="` + support.SM.Checklist.Block + `">`)
+		output = append(output, `<div class="` + support.SM.Checklist.Block + `">`)
 
 		for _, item := range itemsList {
-			result = append(result, `<div class="` + support.SM.Checklist.Item + `">`)
+			output = append(output, `<div class="` + support.SM.Checklist.Item + `">`)
 
 			if item.Checked {
-				result = append(result, `<span class="` + support.SM.Checklist.CheckboxChecked + `">&#10004;</span>`)
+				output = append(output, `<span class="` + support.SM.Checklist.CheckboxChecked + `">&#10004;</span>`)
 			} else {
-				result = append(result, `<span class="` + support.SM.Checklist.CheckboxUnchecked + `">&nbsp;-&nbsp;</span>`)
+				output = append(output, `<span class="` + support.SM.Checklist.CheckboxUnchecked + `">&nbsp;-&nbsp;</span>`)
 			}
 
-			result = append(result, `<span class="` + support.SM.Checklist.Text + `">` + item.Text + `</span>`,
+			output = append(output, `<span class="` + support.SM.Checklist.Text + `">` + item.Text + `</span>`,
 				`</div>`)
 		}
 
-		result = append(result, `</div>`)
+		output = append(output, `</div>`)
 	}
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Table(el *domain.EditorJSDataTable) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<table class="` + support.SM.Table.Table + `">`)
+	output = append(output, `<table class="` + support.SM.Table.Table + `">`)
 
 	for index, line := range el.Content {
-		result = append(result, `<tr class="` + support.SM.Table.Row + `">`)
+		output = append(output, `<tr class="` + support.SM.Table.Row + `">`)
 
 		tag := `td`
 		tagClass := `class="` + support.SM.Table.CellTD + `"`
@@ -160,46 +162,46 @@ func Table(el *domain.EditorJSDataTable) string {
 		}
 
 		for _, info := range line {
-			result = append(result, `<` + tag + ` ` + tagClass + `>` + info + `</` + tag + `>`)
+			output = append(output, `<` + tag + ` ` + tagClass + `>` + info + `</` + tag + `>`)
 		}
 
-		result = append(result, `</tr>`)
+		output = append(output, `</tr>`)
 	}
 
-	result = append(result, `</table>`)
+	output = append(output, `</table>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func AnyButton(el *domain.EditorJSDataAnyButton) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<a class="` + support.SM.AnyButton + `" href="` + el.Link + `">` + el.Text + `</a>`)
+	output = append(output, `<a class="` + support.SM.AnyButton + `" href="` + el.Link + `">` + el.Text + `</a>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Code(el *domain.EditorJSDataCode) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<pre class="` + support.SM.Code.Pre + `">`,
+	output = append(output, `<pre class="` + support.SM.Code.Pre + `">`,
 		`<code class="` + support.SM.Code.Code + `">` + el.Code,
 		`</code></pre>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Raw(el *domain.EditorJSDataRaw) string {
-	var result []string
+	var output []string
 
 	content := strings.ReplaceAll(el.Html,"<","&lt;")
 	content = strings.ReplaceAll(content,">","&gt;")
 
-	result = append(result, `<pre class="` + support.SM.Raw.Pre + `">`,
+	output = append(output, `<pre class="` + support.SM.Raw.Pre + `">`,
 		`<code class="` + support.SM.Raw.Code + `">` + content,
 		`</code></pre>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Image(el *domain.EditorJSDataImage) string {
@@ -229,9 +231,9 @@ func Image(el *domain.EditorJSDataImage) string {
 }
 
 func LinkTool(el *domain.EditorJSDataLinkTool) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<a href="`+el.Link+`" target="_Blank" rel="nofollow noindex noreferrer" class="` + support.SM.LinkTool.Link + `">`,
+	output = append(output, `<a href="`+el.Link+`" target="_Blank" rel="nofollow noindex noreferrer" class="` + support.SM.LinkTool.Link + `">`,
 		`<div class="` + support.SM.LinkTool.Container + `">`,
 		`<div class="` + support.SM.LinkTool.Row + `">`,
 		`<div class="` + support.SM.LinkTool.LeftColumn + `">`,
@@ -252,13 +254,13 @@ func LinkTool(el *domain.EditorJSDataLinkTool) string {
 		`</div>`,
 		`</a>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Attaches(el *domain.EditorJSDataAttaches) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<a href="` + el.File.URL + `" rel="noopener noreferrer" target="_blank" class="` + support.SM.Attaches.Link + `">`,
+	output = append(output, `<a href="` + el.File.URL + `" rel="noopener noreferrer" target="_blank" class="` + support.SM.Attaches.Link + `">`,
 		`<div class="` + support.SM.Attaches.Container + `">`,
 		`<div class="` + support.SM.Attaches.Row + `" >`,
 		`<div class="` + support.SM.Attaches.LeftColumn + `" >`,
@@ -279,20 +281,20 @@ func Attaches(el *domain.EditorJSDataAttaches) string {
 		`</div>`,
 		`</a>`)
 
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func Embed(el *domain.EditorJSDataEmbed) string {
-	var result []string
+	var output []string
 
-	result = append(result, `<div class="` + support.SM.Embed.Block + `" style="max-width: `+strconv.Itoa(el.Width)+`px">`,
+	output = append(output, `<div class="` + support.SM.Embed.Block + `" style="max-width: `+strconv.Itoa(el.Width)+`px">`,
 		`<div class="` + support.SM.Embed.Title + `">` + el.Caption + `</div>`,
 		`<iframe width="` + strconv.Itoa(el.Width) + `" height="` + strconv.Itoa(el.Height) + `" src="` + el.Embed + `" title="` + el.Caption + `" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`,
 		`<div class="` + support.SM.Embed.Bottom + `">`,
 		`<a class="` + support.SM.Embed.Link + `" href="`+el.Source+`" target="_Blank">Watch on `+el.Service+`</a>`,
 		`</div>`,
 		`</div>`)
-	return strings.Join(result[:], "\n")
+	return strings.Join(output[:], "\n")
 }
 
 func ImageGallery(el *domain.EditorJSDataImageGallery) (string, string) {

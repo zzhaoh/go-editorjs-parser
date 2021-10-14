@@ -48,8 +48,8 @@ func MinifyLib(libPath, libType string) (contentMinified []byte) {
 	return
 }
 
-func LoadStyle(styleFile string) (contentFile []byte) {
-	contentFile, err := stylesFiles.ReadFile("styles/" + styleFile)
+func LoadStyle(styleFile, styleType string) (contentFile []byte) {
+	contentFile, err := stylesFiles.ReadFile("styles/" + styleType + "/" + styleFile)
 	if err != nil {
 		log.Println("Error loading style file\n", err)
 	}
@@ -58,7 +58,7 @@ func LoadStyle(styleFile string) (contentFile []byte) {
 }
 
 func MinifyStyle(stylePath, styleType string) (contentMinified []byte) {
-	contentFile, err := stylesFiles.ReadFile("styles/" + stylePath)
+	contentFile, err := stylesFiles.ReadFile("styles/" + styleType + "/" + stylePath)
 	if err == nil {
 		contentMinified, err = MinifyContent(contentFile, styleType)
 		if err != nil {
@@ -269,7 +269,7 @@ func ParseEditorJSON(editorJS string) domain.EditorJS {
 }
 
 func LoadStyleMap(path string) {
-	content := LoadStyle(path)
+	content := LoadStyle(path,"json")
 
 	err := json.Unmarshal(content, &SM)
 	if err != nil {

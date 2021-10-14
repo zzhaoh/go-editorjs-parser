@@ -1,7 +1,12 @@
 {
-  "styleName": "bootstrap5",
-  "libraryPath": "",
-  "spaceBetweenBlocks": "col-md-3 col-sm-3 col-xs-3",
+  "styleName": "foundation",
+  "libraryPaths": [
+    "https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css",
+    "https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation-float.min.css",
+    "https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation-prototype.min.css",
+    "https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation-rtl.min.css"
+  ],
+  "spaceBetweenBlocks": "full height-25",
   "alignment": {
     "left": "text-start",
     "center": "text-center",

@@ -1,6 +1,8 @@
 {
   "styleName": "test",
-  "libraryPath": "example/test.css",
+  "libraryPaths": [
+    "test.css"
+  ],
   "spaceBetweenBlocks": "space-between-blocks",
   "alignment": {
     "left": "alignment_text_left",
