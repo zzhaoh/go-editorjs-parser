@@ -292,3 +292,9 @@ func LoadExternalStyleMap(path string) {
 
 	return
 }
+
+func AppendBlockScript(blockScript string) (blockScriptOut string){
+	blockScriptMinified, _ := MinifyContent([]byte(blockScript), "js")
+	blockScriptOut = string(blockScriptMinified)
+	return
+}

@@ -19,9 +19,9 @@
   },
   "paragraph": "",
   "quote": {
-    "figure": "has-background-light p-5",
+    "figure": "",
     "blockquote": "",
-    "figcaption": "is-italic"
+    "figcaption": ""
   },
   "warning": "notification is-warning is-light",
   "delimiter": "has-text-centered is-size-4",

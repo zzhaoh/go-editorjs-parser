@@ -1,4 +1,4 @@
-package html
+package sample
 
 import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
@@ -9,6 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 )
+
+var obj = Init()
 
 func TestHeaderBlock(t *testing.T) {
 	for i := 1; i <= 6; i++ {
@@ -27,10 +29,10 @@ func TestHeaderBlock(t *testing.T) {
 }`
 
 		editorJSON1 := support.ParseEditorJSON(input1)
-		content1 := support.PrepareData(editorJSON1.Blocks[0])
+		obj.Data = support.PrepareData(editorJSON1.Blocks[0]).(*domain.EditorJSDataHeader)
 
 		expected1 := `<h`+level+`>Level `+level+` Header</h`+level+`>`
-		actual1 := Header(content1.(*domain.EditorJSDataHeader))
+		actual1 := obj.Header()
 		assert.Equal(t, expected1, actual1)
 	}
 
@@ -51,10 +53,10 @@ func TestHeaderBlock(t *testing.T) {
 }`
 
 		editorJSON1 := support.ParseEditorJSON(input1)
-		content1 := support.PrepareData(editorJSON1.Blocks[0])
+		obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
 		expected1 := `<h`+level+` id="anchor-text-`+level+`">Level `+level+` Header</h`+level+`>`
-		actual1 := Header(content1.(*domain.EditorJSDataHeader))
+		actual1 := obj.Header()
 		assert.Equal(t, expected1, actual1)
 	}
 }
@@ -72,10 +74,10 @@ func TestParagraphBlock(t *testing.T) {
 }`
 
 	editorJSON1 := support.ParseEditorJSON(input1)
-	content1 := support.PrepareData(editorJSON1.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `<p>I am a paragraph!</p>`
-	actual1 := Paragraph(content1.(*domain.EditorJSDataParagraph))
+	actual1 := obj.Paragraph()
 	assert.Equal(t, expected1, actual1)
 
 	input2 := `{
@@ -91,10 +93,10 @@ func TestParagraphBlock(t *testing.T) {
 }`
 
 	editorJSON2 := support.ParseEditorJSON(input2)
-	content2 := support.PrepareData(editorJSON2.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `<p style="text-align:center">I am a paragraph!</p>`
-	actual2 := Paragraph(content2.(*domain.EditorJSDataParagraph))
+	actual2 := obj.Paragraph()
 	assert.Equal(t, expected2, actual2)
 }
 
@@ -113,7 +115,7 @@ func TestQuoteBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<figure class="quote">
 <blockquote style="text-align: center">
@@ -123,7 +125,7 @@ The journey of a thousand miles begins with one step.
 &mdash; Lao Tzu
 </figcaption>
 </figure>`
-	actual := Quote(content.(*domain.EditorJSDataQuote))
+	actual := obj.Quote()
 	assert.Equal(t, expected, actual)
 }
 
@@ -141,7 +143,7 @@ func TestWarningBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<div class="warning-msg">
 <b>
@@ -149,13 +151,13 @@ Note:
 </b>
 Avoid using this method just for lulz. It can be very dangerous opposite your daily fun stuff.
 </div>`
-	actual := Warning(content.(*domain.EditorJSDataWarning))
+	actual := obj.Warning()
 	assert.Equal(t, expected, actual)
 }
 
 func TestDelimiterBlock(t *testing.T) {
 	expected := `<div class="ce-delimiter cdx-block"></div>`
-	actual := Delimiter()
+	actual := obj.Delimiter()
 	assert.Equal(t, expected, actual)
 }
 
@@ -173,14 +175,14 @@ func TestAlertBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<div class="cdx-alert cdx-alert-primary">
 <div class="cdx-alert__message">
 Something happened that you should know about.
 </div>
 </div>`
-	actual := Alert(content.(*domain.EditorJSDataAlert))
+	actual := obj.Alert()
 	assert.Equal(t, expected, actual)
 }
 
@@ -202,14 +204,14 @@ func TestListBlock(t *testing.T) {
 }`
 
 	editorJSON1 := support.ParseEditorJSON(input1)
-	content1 := support.PrepareData(editorJSON1.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `<ul>
 <li>This is a block-styled editor</li>
 <li>Clean output data</li>
 <li>Simple and powerful API</li>
 </ul>`
-	actual1 := List(content1.(*domain.EditorJSDataList))
+	actual1 := obj.List()
 	assert.Equal(t, expected1, actual1)
 
 	input2 := `{
@@ -289,7 +291,7 @@ func TestListBlock(t *testing.T) {
 }`
 
 	editorJSON2 := support.ParseEditorJSON(input2)
-	content2 := support.PrepareData(editorJSON2.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `<ol>
 <li>Cars
@@ -335,7 +337,7 @@ func TestListBlock(t *testing.T) {
 </ol>
 </li>
 </ol>`
-	actual2 := List(content2.(*domain.EditorJSDataList))
+	actual2 := obj.List()
 	assert.Equal(t, expected2, actual2)
 }
 
@@ -365,7 +367,7 @@ func TestChecklistBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<div class="cdx-block cdx-checklist">
 <div class="cdx-checklist__item cdx-checklist__item--checked">
@@ -381,7 +383,7 @@ func TestChecklistBlock(t *testing.T) {
 <div class="cdx-checklist__item-text">Simple and powerful API</div>
 </div>
 </div>`
-	actual := Checklist(content.(*domain.EditorJSDataChecklist))
+	actual := obj.Checklist()
 	assert.Equal(t, expected, actual)
 }
 
@@ -415,7 +417,7 @@ func TestTableBlock(t *testing.T) {
 }`
 
 	editorJSON1 := support.ParseEditorJSON(input1)
-	content1 := support.PrepareData(editorJSON1.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `<table>
 <tr>
@@ -434,7 +436,7 @@ func TestTableBlock(t *testing.T) {
 <td>150$</td>
 </tr>
 </table>`
-	actual1 := Table(content1.(*domain.EditorJSDataTable))
+	actual1 := obj.Table()
 	assert.Equal(t, expected1, actual1)
 
 	input2 := `{
@@ -465,7 +467,7 @@ func TestTableBlock(t *testing.T) {
 }`
 
 	editorJSON2 := support.ParseEditorJSON(input2)
-	content2 := support.PrepareData(editorJSON2.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `<table>
 <tr>
@@ -484,7 +486,7 @@ func TestTableBlock(t *testing.T) {
 <td>150$</td>
 </tr>
 </table>`
-	actual2 := Table(content2.(*domain.EditorJSDataTable))
+	actual2 := obj.Table()
 	assert.Equal(t, expected2, actual2)
 }
 
@@ -502,10 +504,10 @@ func TestAnyButtonBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<a class="AnyButton" href="https://editorjs.io/">editorjs official</a>`
-	actual := AnyButton(content.(*domain.EditorJSDataAnyButton))
+	actual := obj.AnyButton()
 	assert.Equal(t, expected, actual)
 }
 
@@ -522,14 +524,14 @@ func TestCodeBlock(t *testing.T) {
 }`
 
 	editorJSON1 := support.ParseEditorJSON(input1)
-	content1 := support.PrepareData(editorJSON1.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `<pre><code class="language-">body {
  font-size: 14px;
  line-height: 16px;
 }
 </code></pre>`
-	actual1 := Code(content1.(*domain.EditorJSDataCode))
+	actual1 := obj.Code()
 	assert.Equal(t, expected1, actual1)
 
 	input2 := `{
@@ -545,14 +547,14 @@ func TestCodeBlock(t *testing.T) {
 }`
 
 	editorJSON2 := support.ParseEditorJSON(input2)
-	content2 := support.PrepareData(editorJSON2.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `<pre><code class="language-css">body {
  font-size: 14px;
  line-height: 16px;
 }
 </code></pre>`
-	actual2 := Code(content2.(*domain.EditorJSDataCode))
+	actual2 := obj.Code()
 	assert.Equal(t, expected2, actual2)
 }
 
@@ -569,11 +571,11 @@ func TestRawBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<pre class="preRaw"><code>&lt;div style="background: #000; color: #fff; font-size: 30px; padding: 50px;"&gt;Any HTML code&lt;/div&gt;
 </code></pre>`
-	actual := Raw(content.(*domain.EditorJSDataRaw))
+	actual := obj.Raw()
 	assert.Equal(t, expected, actual)
 }
 
@@ -596,10 +598,10 @@ func TestImageBlock(t *testing.T) {
 }`
 
 	editorJSON1 := support.ParseEditorJSON(input1)
-	content1 := support.PrepareData(editorJSON1.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
 	expected1 := `<div class="img-with-border img-with-background " ><img src="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" alt="Roadster // tesla.com" title="Roadster // tesla.com" /></div>`
-	actual1 := Image(content1.(*domain.EditorJSDataImage))
+	actual1 := obj.Image()
 	assert.Equal(t, expected1, actual1)
 
 	input2 := `{
@@ -618,10 +620,10 @@ func TestImageBlock(t *testing.T) {
 }`
 
 	editorJSON2 := support.ParseEditorJSON(input2)
-	content2 := support.PrepareData(editorJSON2.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
 	expected2 := `<div class="img-stretched " ><img src="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" alt="Roadster // tesla.com" title="Roadster // tesla.com" /></div>`
-	actual2 := Image(content2.(*domain.EditorJSDataImage))
+	actual2 := obj.Image()
 	assert.Equal(t, expected2, actual2)
 }
 
@@ -646,7 +648,7 @@ func TestLinkToolBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<a href="https://codex.so" target="_Blank" rel="nofollow noindex noreferrer" class="linkTool_anchor">
 <div class="linkTool_content">
@@ -664,7 +666,7 @@ codex.so
 <div class="linkTool_image" style="background: url(https://codex.so/public/app/img/meta_img.png)"></div>
 </div>
 </a>`
-	actual := LinkTool(content.(*domain.EditorJSDataLinkTool))
+	actual := obj.LinkTool()
 	assert.Equal(t, expected, actual)
 }
 
@@ -687,7 +689,7 @@ func TestAttachesBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<a href="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" rel="noopener noreferrer" target="_blank" class="attaches-anchor">
 <div class="attaches-content">
@@ -703,7 +705,7 @@ hero.jpg
 <div class="attaches-right" style="background: url(https://i.ibb.co/VYyHr6C/download-icon.png)"></div>
 </div>
 </a>`
-	actual := Attaches(content.(*domain.EditorJSDataAttaches))
+	actual := obj.Attaches()
 	assert.Equal(t, expected, actual)
 }
 
@@ -725,7 +727,7 @@ func TestEmbedBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<div class="embed-block" style="max-width: 560px">
 <div class="embed-title">Lamborghini Aventador SVJ</div>
@@ -734,7 +736,7 @@ func TestEmbedBlock(t *testing.T) {
 <a href="https://www.youtube.com/watch?v=viW44cUfxCE" target="_Blank">Watch on Youtube</a>
 </div>
 </div>`
-	actual := Embed(content.(*domain.EditorJSDataEmbed))
+	actual := obj.Embed()
 	assert.Equal(t, expected, actual)
 }
 
@@ -766,7 +768,7 @@ func TestImageGalleryBlock(t *testing.T) {
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
-	content := support.PrepareData(editorJSON.Blocks[0])
+	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
 	expected := `<div class="gg-container">
 <div class="gg-box" id="">
@@ -779,6 +781,6 @@ func TestImageGalleryBlock(t *testing.T) {
 <img src="https://cdn.wallpapersafari.com/94/22/4H3mFp.jpg" id="gg-image-6" />
 </div>
 </div>`
-	actual, _ := ImageGallery(content.(*domain.EditorJSDataImageGallery))
+	actual, _ := obj.ImageGallery()
 	assert.Equal(t, expected, actual)
 }

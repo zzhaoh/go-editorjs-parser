@@ -56,12 +56,12 @@
   },
   "anyButton": "btn btn-secondary",
   "code": {
-    "pre": "",
-    "code": ""
+    "pre": "p-3 mb-2 bg-light",
+    "code": "text-dark"
   },
   "raw": {
-    "pre": "",
-    "code": ""
+    "pre": "p-3 mb-2",
+    "code": "text-dark"
   },
   "image": {
     "border": "border",
