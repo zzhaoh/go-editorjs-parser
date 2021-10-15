@@ -1,14 +1,14 @@
 package config
 
 const (
-	DefaultStyleName = "default"
-	DefaultJSONFile = "default.json"
+	SampleStyleName = "sample"
+	SampleJSONFile = "sample.json"
 
 	Bootstrap5StyleName = "bootstrap5"
 	Bootstrap5JSONFile = "bootstrap5.json"
 
-	FoundationStyleName = "foundation"
-	FoundationJSONFile = "foundation.json"
+	BulmaStyleName = "bulma"
+	BulmaJSONFile = "bulma.json"
 
 	LibsPath = "support/libs/"
 )

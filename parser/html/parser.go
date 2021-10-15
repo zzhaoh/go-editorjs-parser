@@ -1,7 +1,9 @@
 package html
 
 import (
-	"fmt"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bootstrap5"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bulma"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/sample"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
@@ -22,14 +24,17 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 		log.Fatal("Style map is empty\n", err)
 	}
 
-	switch support.SM.StyleName {
-	case config.DefaultStyleName:
-		loadDefaultLibraryPaths()
-	case config.Bootstrap5StyleName, config.FoundationStyleName:
-		loadLibraryPaths()
-	default:
-		loadLibraryPaths()
-	}
+	frameworks := make(map[string]domain.EditorJSMethods)
+	samplePkg := sample.Init()
+	frameworks[config.SampleStyleName] = &samplePkg
+
+	bootstrap5Pkg := bootstrap5.Init()
+	frameworks[config.Bootstrap5StyleName] = &bootstrap5Pkg
+
+	bulmaPkg := bulma.Init()
+	frameworks[config.BulmaStyleName] = &bulmaPkg
+
+	styles = frameworks[support.SM.StyleName].LoadLibrary()
 
 	input, err := support.ReadJsonFile(jsonFilePath)
 	if err != nil {
@@ -44,44 +49,44 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 
 		result = append(result, support.Separator(support.SM.SpaceBetweenBlocks))
 
-		content := support.PrepareData(el)
+		frameworks[support.SM.StyleName].SetData(support.PrepareData(el))
 
 		switch el.Type {
 
 		case "header":
-			result = append(result, Header(content.(*domain.EditorJSDataHeader)))
+			result = append(result, frameworks[support.SM.StyleName].Header())
 		case "paragraph":
-			result = append(result, Paragraph(content.(*domain.EditorJSDataParagraph)))
+			result = append(result, frameworks[support.SM.StyleName].Paragraph())
 		case "quote":
-			result = append(result, Quote(content.(*domain.EditorJSDataQuote)))
+			result = append(result, frameworks[support.SM.StyleName].Quote())
 		case "warning":
-			result = append(result, Warning(content.(*domain.EditorJSDataWarning)))
+			result = append(result, frameworks[support.SM.StyleName].Warning())
 		case "delimiter":
-			result = append(result, Delimiter())
+			result = append(result, frameworks[support.SM.StyleName].Delimiter())
 		case "alert":
-			result = append(result, Alert(content.(*domain.EditorJSDataAlert)))
+			result = append(result, frameworks[support.SM.StyleName].Alert())
 		case "list":
-			result = append(result, List(content.(*domain.EditorJSDataList)))
+			result = append(result, frameworks[support.SM.StyleName].List())
 		case "checklist":
-			result = append(result, Checklist(content.(*domain.EditorJSDataChecklist)))
+			result = append(result, frameworks[support.SM.StyleName].Checklist())
 		case "table":
-			result = append(result, Table(content.(*domain.EditorJSDataTable)))
+			result = append(result, frameworks[support.SM.StyleName].Table())
 		case "AnyButton":
-			result = append(result, AnyButton(content.(*domain.EditorJSDataAnyButton)))
+			result = append(result, frameworks[support.SM.StyleName].AnyButton())
 		case "code":
-			result = append(result, Code(content.(*domain.EditorJSDataCode)))
+			result = append(result, frameworks[support.SM.StyleName].Code())
 		case "raw":
-			result = append(result, Raw(content.(*domain.EditorJSDataRaw)))
+			result = append(result, frameworks[support.SM.StyleName].Raw())
 		case "image":
-			result = append(result, Image(content.(*domain.EditorJSDataImage)))
+			result = append(result, frameworks[support.SM.StyleName].Image())
 		case "linkTool":
-			result = append(result, LinkTool(content.(*domain.EditorJSDataLinkTool)))
+			result = append(result, frameworks[support.SM.StyleName].LinkTool())
 		case "attaches":
-			result = append(result, Attaches(content.(*domain.EditorJSDataAttaches)))
+			result = append(result, frameworks[support.SM.StyleName].Attaches())
 		case "embed":
-			result = append(result, Embed(content.(*domain.EditorJSDataEmbed)))
+			result = append(result, frameworks[support.SM.StyleName].Embed())
 		case "imageGallery":
-			imgRes, imgScript := ImageGallery(content.(*domain.EditorJSDataImageGallery))
+			imgRes, imgScript := frameworks[support.SM.StyleName].ImageGallery()
 			result = append(result, imgRes)
 			appendBlockScript(imgScript)
 		}
@@ -90,11 +95,7 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 
 	result = append(result, support.Separator(support.SM.SpaceBetweenBlocks))
 
-	script := "\n\n<script>\n" + strings.Join(scripts[:], "\n") + "\n</script>\n\n"
-
-	content := strings.Join(styles[:], "\n") + strings.Join(result[:], "\n\n") + script
-
-	err = support.WriteOutputFile(outputFilePath, content, "html")
+	err = support.WriteOutputFile(outputFilePath, createPageStructure(), "html")
 	if err != nil {
 		log.Println("It was not possible to write the output html file\n", err)
 	}
@@ -126,15 +127,19 @@ func appendBlockScript(blockScript string) {
 	}
 }
 
-func loadLibraryPaths(){
-	for _, l := range support.SM.LibraryPaths {
-		styles = append(styles, `<link rel="stylesheet" href="`+l+`">`)
-	}
-}
+func createPageStructure() string {
+	script := "\n\n<script>\n" + strings.Join(scripts[:], "\n") + "\n</script>\n\n"
 
-func loadDefaultLibraryPaths(){
-	for _, l := range support.SM.LibraryPaths {
-		fmt.Println(l)
-		styles = append(styles, `<style>` + string(support.LoadStyle(l, "css")) + `</style>`)
-	}
+	return `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+` + strings.Join(styles[:], "\n") + ` 
+  </head>
+  <body>
+` + strings.Join(result[:], "\n\n") + script + ` 
+  </body>
+</html>
+`
 }

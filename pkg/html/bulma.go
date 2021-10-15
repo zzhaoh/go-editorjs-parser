@@ -6,7 +6,7 @@ import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 )
 
-func Foundation(jsonFilePath, outputFilePath string) (err error) {
-	support.LoadStyleMap(config.FoundationJSONFile)
+func Bulma(jsonFilePath, outputFilePath string) (err error) {
+	support.LoadStyleMap(config.BulmaJSONFile)
 	return html.Parser(jsonFilePath, outputFilePath)
 }

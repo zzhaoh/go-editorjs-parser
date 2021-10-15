@@ -10,8 +10,6 @@ import (
 	"strings"
 )
 
-
-
 func Header(el *domain.EditorJSDataHeader) string {
 	anchor := ""
 	if el.Anchor != "" {

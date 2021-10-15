@@ -6,7 +6,7 @@ import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 )
 
-func Default(jsonFilePath, outputFilePath string) (err error) {
-	support.LoadStyleMap(config.DefaultJSONFile)
+func Sample(jsonFilePath, outputFilePath string) (err error) {
+	support.LoadStyleMap(config.SampleJSONFile)
 	return html.Parser(jsonFilePath, outputFilePath)
 }

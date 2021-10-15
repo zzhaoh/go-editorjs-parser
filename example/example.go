@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	err := html.Foundation("example/example.json", "example")
+	err := html.Bulma("example/example.json", "example")
 	if err != nil {
 		log.Println("It was not possible to parse json to html file\n",err)
 		return
