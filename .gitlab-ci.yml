@@ -32,6 +32,12 @@ pages:
   image: node:14.17.6
   script:
     - npm i docsify-cli -g
-    - docsify serve readme &
+    - rm -rf public
+    - mkdir public
+    - cp -r readme/* public
+    - docsify serve public &
+  artifacts:
+    paths:
+      - public
   only:
     - develop
