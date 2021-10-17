@@ -6,22 +6,26 @@ type StyleMap struct {
 	PageHead           []string          `json:"pageHead"`
 	SpaceBetweenBlocks string            `json:"spaceBetweenBlocks"`
 	Alignment          map[string]string `json:"alignment"`
-	Header             map[string]string `json:"header"`
-	Paragraph          string            `json:"paragraph"`
-	Quote              QuoteStyle        `json:"quote"`
-	Warning            WarningStyle      `json:"warning"`
-	Delimiter          string            `json:"delimiter"`
-	Alert              AlertStyle        `json:"alert"`
-	List               ListStyle         `json:"list"`
-	Checklist          ChecklistStyle    `json:"checklist"`
-	Table              TableStyle        `json:"table"`
-	AnyButton          string            `json:"anyButton"`
-	Code               CodeStyle         `json:"code"`
-	Raw                CodeStyle         `json:"raw"`
-	Image              ImageStyle        `json:"image"`
-	LinkTool           LinkToolStyle     `json:"linkTool"`
-	Attaches           AttachesStyle     `json:"attaches"`
-	Embed              EmbedStyle        `json:"embed"`
+	Blocks             Blocks            `json:"blocks"`
+}
+
+type Blocks struct {
+	Header    map[string]string `json:"header"`
+	Paragraph string            `json:"paragraph"`
+	Quote     QuoteStyle        `json:"quote"`
+	Warning   WarningStyle      `json:"warning"`
+	Delimiter string            `json:"delimiter"`
+	Alert     AlertStyle        `json:"alert"`
+	List      ListStyle         `json:"list"`
+	Checklist ChecklistStyle    `json:"checklist"`
+	Table     TableStyle        `json:"table"`
+	AnyButton string            `json:"anyButton"`
+	Code      CodeStyle         `json:"code"`
+	Raw       CodeStyle         `json:"raw"`
+	Image     ImageStyle        `json:"image"`
+	LinkTool  LinkToolStyle     `json:"linkTool"`
+	Attaches  AttachesStyle     `json:"attaches"`
+	Embed     EmbedStyle        `json:"embed"`
 }
 
 type QuoteStyle struct {

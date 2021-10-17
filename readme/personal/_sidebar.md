@@ -1,0 +1,71 @@
+<!-- personal/_sidebar.md -->
+
+- citizenship
+  - [files](/personal/citizenship/files "personal | citizenship | files")
+  - [information](/personal/citizenship/information "personal | citizenship | information")
+- courses
+  - [links](/personal/courses/links "personal | courses | links")
+- css
+  - [frameworks](/personal/css/frameworks "personal | css | frameworks")
+  - [links](/personal/css/links "personal | css | links")
+- docker
+  - [commands](/personal/docker/commands "personal | docker | commands")
+- documentation
+  - [frameworks](/personal/documentation/frameworks "personal | documentation | frameworks")
+- games
+  - [links](/personal/games/links "personal | games | links")
+- git
+  - [badges](/personal/git/badges "personal | git | badges")
+  - [files](/personal/git/files "personal | git | files")
+  - [gitlab automatic releases](/personal/git/gitlabAutomaticReleases "personal | git | gitlab automatic releases")
+  - [links](/personal/git/links "personal | git | links")
+  - [raw git files](/personal/git/rawGitFiles "personal | git | raw git files")
+  - [rodrigo odhin](/personal/git/rodrigoOdhin "personal | git | rodrigo odhin")
+- go
+  - [frameworks](/personal/go/frameworks "personal | go | frameworks")
+  - [links](/personal/go/links "personal | go | links")
+  - [mmock](/personal/go/mmock "personal | go | mmock")
+  - [packages](/personal/go/packages "personal | go | packages")
+  - [tutorials](/personal/go/tutorials "personal | go | tutorials")
+- images
+  - [links](/personal/images/links "personal | images | links")
+- javascript
+  - [links](/personal/javascript/links "personal | javascript | links")
+  - [nvm](/personal/javascript/nvm "personal | javascript | nvm")
+  - [npm](/personal/javascript/npm "personal | javascript | npm")
+  - [publish packages](/personal/javascript/publishPackages "personal | javascript | publish packages")
+- json
+  - [links](/personal/json/links "personal | json | links")
+- linkedin
+  - [courses](/personal/linkedin/courses "personal | linkedin | courses")
+  - [experience en](/personal/linkedin/experience-en "personal | linkedin | experience en")
+  - [experience pt](/personal/linkedin/experience-pt "personal | linkedin | experience pt")
+  - [files](/personal/linkedin/files "personal | linkedin | files")
+  - [projects en](/personal/linkedin/projects-en "personal | linkedin | projects en")
+  - [projects pt](/personal/linkedin/projects-pt "personal | linkedin | projects pt")
+  - [resume](/personal/linkedin/resume "personal | linkedin | resume")
+- linux
+  - [distros](/personal/linux/distros "personal | linux | distros")
+- others
+  - [disinfection](/personal/others/disinfection "personal | others | disinfection")
+  - [hmac](/personal/others/hmac "personal | others | hmac")
+  - [htaccess](/personal/others/htaccess "personal | others | htaccess")
+  - [links](/personal/others/links "personal | others | links")
+  - [markdown](/personal/others/markdown "personal | others | markdown")
+- php
+  - [ddev](/personal/php/ddev "personal | php | ddev")
+  - [links](/personal/php/links "personal | php | links")
+- postgres
+  - [install via brew](/personal/postgres/installViaBrew "personal | postgres | install via brew")
+- security
+  - [links](/personal/security/links "personal | security | links")
+  - [ssh](/personal/security/ssh "personal | security | ssh")
+- tests
+  - [frameworks](/personal/tests/frameworks "personal | tests | frameworks")
+  - [links](/personal/tests/links "personal | tests | links")
+  - [selenoid](/personal/tests/selenoid "personal | tests | selenoid")
+- vue
+  - [links](/personal/vue/links "personal | vue | links")
+  - [tutorials](/personal/vue/tutorials "personal | vue | tutorials")
+- web
+  - [links](/personal/web/links "personal | web | links")

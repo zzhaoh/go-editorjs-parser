@@ -7,6 +7,7 @@ type EditorJSMethods interface {
 	SetScripts(scripts []string)
 	LoadLibrary()
 	CreatePage() string
+	Separator()
 	Header()
 	Paragraph()
 	Quote()

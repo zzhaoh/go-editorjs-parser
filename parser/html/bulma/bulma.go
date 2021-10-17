@@ -59,6 +59,10 @@ func (o *Object) CreatePage() string {
 	return common.CreatePage(o.Scripts, o.Styles, o.Result)
 }
 
+func (o *Object) Separator() {
+	 o.SetResult(common.Separator())
+}
+
 func (o *Object) Header() {
 	obj := o.Data.(*domain.EditorJSDataHeader)
 	o.Result = append(o.Result, fmt.Sprintf(`<div class="content">%s</div>`, common.Header(obj)))
@@ -74,9 +78,9 @@ func (o *Object) Quote() {
 	var output []string
 
 	output = append(output, `<div class="content">`,
-		`<blockquote class="`+sup.SM.Quote.Blockquote+` `+sup.SM.Alignment[obj.Alignment]+`">`,
+		`<blockquote class="`+sup.SM.Blocks.Quote.Blockquote+` `+sup.SM.Alignment[obj.Alignment]+`">`,
 		obj.Text,
-		`<p class="`+sup.SM.Quote.Author+`">`,
+		`<p class="`+sup.SM.Blocks.Quote.Author+`">`,
 		obj.Caption,
 		`</p>`,
 		`</blockquote>`,
@@ -89,13 +93,13 @@ func (o *Object) Warning() {
 	obj := o.Data.(*domain.EditorJSDataWarning)
 	var output []string
 
-	output = append(output, `<div class="`+sup.SM.Warning.Block+`">`)
+	output = append(output, `<div class="`+sup.SM.Blocks.Warning.Block+`">`)
 
-	if sup.SM.Warning.CloseButton {
+	if sup.SM.Blocks.Warning.CloseButton {
 		output = append(output, `<button class="delete"></button>`)
 	}
 
-	output = append(output, `<span class="`+sup.SM.Warning.Title+`">`,
+	output = append(output, `<span class="`+sup.SM.Blocks.Warning.Title+`">`,
 		obj.Title,
 		`</span>`,
 		obj.Message,
@@ -112,9 +116,9 @@ func (o *Object) Alert() {
 	obj := o.Data.(*domain.EditorJSDataAlert)
 	var output []string
 
-	output = append(output, `<div class="`+sup.SM.Alert.Block+` `+sup.SM.Alert.Types[obj.Type]+`">`)
+	output = append(output, `<div class="`+sup.SM.Blocks.Alert.Block+` `+sup.SM.Blocks.Alert.Types[obj.Type]+`">`)
 
-	if sup.SM.Alert.CloseButton {
+	if sup.SM.Blocks.Alert.CloseButton {
 		output = append(output, `<button class="delete"></button>`)
 	}
 
@@ -167,39 +171,39 @@ func (o *Object) Image() {
 	}
 
 	if obj.WithBorder {
-		classes += sup.SM.Image.Border + " "
+		classes += sup.SM.Blocks.Image.Border + " "
 	}
 
 	if obj.Stretched {
-		classes += sup.SM.Image.Stretched
+		classes += sup.SM.Blocks.Image.Stretched
 	}
 
 	if obj.WithBackground {
-		classDiv = sup.SM.Image.Background
+		classDiv = sup.SM.Blocks.Image.Background
 	}
 
-	o.Result = append(o.Result, fmt.Sprintf(`<figure class="%s %s" ><img class="%s %s" src="%s" alt="%s" title="%s" /></figure>`, sup.SM.Image.Block, classDiv, sup.SM.Image.Image, classes, url, obj.Caption, obj.Caption))
+	o.Result = append(o.Result, fmt.Sprintf(`<figure class="%s %s" ><img class="%s %s" src="%s" alt="%s" title="%s" /></figure>`, sup.SM.Blocks.Image.Block, classDiv, sup.SM.Blocks.Image.Image, classes, url, obj.Caption, obj.Caption))
 }
 
 func (o *Object) LinkTool() {
 	obj := o.Data.(*domain.EditorJSDataLinkTool)
 	var output []string
 
-	output = append(output, `<a href="`+obj.Link+`" target="_Blank" rel="nofollow noindex noreferrer" class="` + sup.SM.LinkTool.Link + `">`,
-		`<div class="` + sup.SM.LinkTool.Container + `">`,
-		`<div class="` + sup.SM.LinkTool.LeftColumn + `">`,
-		`<div class="` + sup.SM.LinkTool.Title + `">`,
+	output = append(output, `<a href="`+obj.Link+`" target="_Blank" rel="nofollow noindex noreferrer" class="` + sup.SM.Blocks.LinkTool.Link + `">`,
+		`<div class="` + sup.SM.Blocks.LinkTool.Container + `">`,
+		`<div class="` + sup.SM.Blocks.LinkTool.LeftColumn + `">`,
+		`<div class="` + sup.SM.Blocks.LinkTool.Title + `">`,
 		obj.Meta.Title,
 		`</div>`,
-		`<div class="` + sup.SM.LinkTool.Description + `">`,
+		`<div class="` + sup.SM.Blocks.LinkTool.Description + `">`,
 		obj.Meta.Description,
 		`</div>`,
-		`<div class="` + sup.SM.LinkTool.LinkDescription + `">`,
+		`<div class="` + sup.SM.Blocks.LinkTool.LinkDescription + `">`,
 		strings.ReplaceAll(strings.ReplaceAll(obj.Link, "https://", ""), "http://", ""),
 		`</div>`,
 		`</div>`,
-		`<div class="` + sup.SM.LinkTool.RightColumn + `">`,
-		`<img class="` + sup.SM.LinkTool.Image + `" src="` + obj.Meta.Image.URL + `" />`,
+		`<div class="` + sup.SM.Blocks.LinkTool.RightColumn + `">`,
+		`<img class="` + sup.SM.Blocks.LinkTool.Image + `" src="` + obj.Meta.Image.URL + `" />`,
 		`</div>`,
 		`</div>`,
 		`</a>`)
@@ -211,21 +215,21 @@ func (o *Object) Attaches() {
 	obj := o.Data.(*domain.EditorJSDataAttaches)
 	var output []string
 
-	output = append(output, `<a href="` + obj.File.URL + `" rel="noopener noreferrer" target="_blank" class="` + sup.SM.Attaches.Link + `">`,
-		`<div class="` + sup.SM.Attaches.Container + `">`,
-		`<div class="` + sup.SM.Attaches.LeftColumn + `" >`,
-		`<img class="` + sup.SM.Attaches.LeftImage + `" src="https://i.ibb.co/K7Myr2k/file-icon.png" />`,
+	output = append(output, `<a href="` + obj.File.URL + `" rel="noopener noreferrer" target="_blank" class="` + sup.SM.Blocks.Attaches.Link + `">`,
+		`<div class="` + sup.SM.Blocks.Attaches.Container + `">`,
+		`<div class="` + sup.SM.Blocks.Attaches.LeftColumn + `" >`,
+		`<img class="` + sup.SM.Blocks.Attaches.LeftImage + `" src="https://i.ibb.co/K7Myr2k/file-icon.png" />`,
 		`</div>`,
-		`<div class="` + sup.SM.Attaches.CenterColumn + `">`,
-		`<div class="` + sup.SM.Attaches.Filename + `">`,
+		`<div class="` + sup.SM.Blocks.Attaches.CenterColumn + `">`,
+		`<div class="` + sup.SM.Blocks.Attaches.Filename + `">`,
 		obj.File.Name,
 		`</div>`,
-		`<div class="` + sup.SM.Attaches.Size + `">`,
+		`<div class="` + sup.SM.Blocks.Attaches.Size + `">`,
 		sup.HumanFileSize(obj.File.Size),
 		`</div>`,
 		`</div>`,
-		`<div class="` + sup.SM.Attaches.RightColumn + `" >`,
-		`<img class="` + sup.SM.Attaches.RightImage + `" src="https://i.ibb.co/VYyHr6C/download-icon.png" />`,
+		`<div class="` + sup.SM.Blocks.Attaches.RightColumn + `" >`,
+		`<img class="` + sup.SM.Blocks.Attaches.RightImage + `" src="https://i.ibb.co/VYyHr6C/download-icon.png" />`,
 		`</div>`,
 		`</div>`,
 		`</a>`)

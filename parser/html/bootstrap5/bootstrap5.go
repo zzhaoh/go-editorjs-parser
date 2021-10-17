@@ -57,6 +57,10 @@ func (o *Object) CreatePage() string {
 	return common.CreatePage(o.Scripts, o.Styles, o.Result)
 }
 
+func (o *Object) Separator() {
+	o.SetResult(common.Separator())
+}
+
 func (o *Object) Header() {
 	obj := o.Data.(*domain.EditorJSDataHeader)
 	o.Result = append(o.Result, common.Header(obj))

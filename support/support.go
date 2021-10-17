@@ -119,13 +119,13 @@ func CreateHTMLNestedList(items []domain.NestedListItem, listStyle string, first
 	var result []string
 
 	if first {
-		result = append(result, `<` + listStyle + ` class="` + SM.List.Group + `">`)
+		result = append(result, `<` + listStyle + ` class="` + SM.Blocks.List.Group + `">`)
 	} else {
-		result = append(result, `<` + listStyle + ` class="` + SM.List.NestedGroup + `">`)
+		result = append(result, `<` + listStyle + ` class="` + SM.Blocks.List.NestedGroup + `">`)
 	}
 
 	for _, item := range items {
-		result = append(result, `<li class="` + SM.List.Item + `">` + item.Content + `</li>`)
+		result = append(result, `<li class="` + SM.Blocks.List.Item + `">` + item.Content + `</li>`)
 
 		if len(item.Items) > 0 {
 			result = append(result, CreateHTMLNestedList(item.Items, listStyle, false))

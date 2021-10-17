@@ -46,9 +46,7 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 		styles, scripts := appendLibs(el)
 		f[sup.SM.StyleName].SetStyles(styles)
 		f[sup.SM.StyleName].SetScripts(scripts)
-
-		f[sup.SM.StyleName].SetResult(sup.Separator(sup.SM.SpaceBetweenBlocks))
-
+		f[sup.SM.StyleName].Separator()
 		f[sup.SM.StyleName].SetData(sup.PrepareData(el))
 
 		switch el.Type {
@@ -91,7 +89,7 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 
 	}
 
-	f[sup.SM.StyleName].SetResult(sup.Separator(sup.SM.SpaceBetweenBlocks))
+	f[sup.SM.StyleName].Separator()
 
 	err = sup.WriteOutputFile(outputFilePath, f[sup.SM.StyleName].CreatePage(), "html")
 	if err != nil {
