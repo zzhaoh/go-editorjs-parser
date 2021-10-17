@@ -4,11 +4,8 @@ stages:
 pages:
   stage: deploy
   image: node:14.17.6
-  variables:
-    DOCSIFY_BASE_PATH: https://gitlab.com/rodrigoodhin/go-editorjs-parser/-/tree/develop/readme
   script:
     - npm i docsify-cli -g
-    - cp -r readme/* readme
     - nohup docsify serve readme &
   only:
     - develop
