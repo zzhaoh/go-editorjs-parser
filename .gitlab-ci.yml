@@ -1,11 +1,37 @@
 stages:
   - deploy
+  - tag
+  - release
+
+create-tag:
+  stage: tag
+  only:
+    - master
+  script:
+    - git config user.name "Rodrigo Odhin"
+    - git config user.email rodrigoodhin@gmail.com
+    - git remote add demo-tag-origin https://oauth2:${GITLAB_ACCESS_TOKEN}@gitlab.com/${CI_PROJECT_PATH}
+    - git tag -a "v$(date +%y.%m.%d)" -m "Auto-Release"
+    - git push demo-tag-origin "v$(date +%y.%m.%d)"
+
+create-release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli
+  only:
+    - master
+  dependencies:
+    - create-tag
+  script:
+    - >
+      release-cli create --name "v$(date +%y.%m.%d)" --description "Version v$(date +%y.%m.%d) created at $(date +%Y-%m-%d)"
+      --tag-name "v$(date +%y.%m.%d)" --ref $CI_COMMIT_SHA
+      --released-at "$(date +%Y-%m-%d %H:%M:%S)"
 
 pages:
   stage: deploy
   image: node:14.17.6
   script:
     - npm i docsify-cli -g
-    - nohup docsify serve readme &
+    - docsify serve readme &
   only:
     - develop
