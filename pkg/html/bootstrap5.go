@@ -2,11 +2,11 @@ package html
 
 import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bootstrap5"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 )
 
 func Bootstrap5(jsonFilePath, outputFilePath string) (err error) {
-	support.LoadStyleMap(config.Bootstrap5JSONFile)
+	support.LoadStyleMap(bootstrap5.MapFile)
 	return html.Parser(jsonFilePath, outputFilePath)
 }

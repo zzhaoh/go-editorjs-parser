@@ -1,7 +1,11 @@
 {
-  "styleName": "default",
+  "styleName": "sample",
   "libraryPaths": [
-    "default.min.css"
+    "sample.min.css"
+  ],
+  "pageHead": [
+    "<meta charset=\"utf-8\">",
+    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
   ],
   "spaceBetweenBlocks": "space-between-blocks",
   "alignment": {
@@ -23,18 +27,23 @@
     "blockquote": "quote_blockquote",
     "figcaption": "quote_figcaption"
   },
-  "warning": "warning_msg",
+  "warning": {
+    "block": "warning_msg",
+    "title": ""
+  },
   "delimiter": "delimiter_block",
   "alert": {
-    "box": "alert_box",
-    "primary": "alert_primary",
-    "secondary": "alert_secondary",
-    "info": "alert_info",
-    "success": "alert_success",
-    "warning": "alert_warning",
-    "danger": "alert_danger",
-    "light": "alert_light",
-    "dark": "alert_dark"
+    "block": "alert_box",
+    "types": {
+      "primary": "alert_primary",
+      "secondary": "alert_secondary",
+      "info": "alert_info",
+      "success": "alert_success",
+      "warning": "alert_warning",
+      "danger": "alert_danger",
+      "light": "alert_light",
+      "dark": "alert_dark"
+    }
   },
   "list": {
     "group": "list_group",

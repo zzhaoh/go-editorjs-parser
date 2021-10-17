@@ -18,15 +18,19 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 		log.Fatal("Style map is empty\n", err)
 	}
 
+	if !sup.IsValidStyle(sup.SM.StyleName) {
+		log.Fatal("Invalid style name: "+sup.SM.StyleName+"\n", err)
+	}
+
 	f := make(map[string]domain.EditorJSMethods)
 	samplePkg := sample.Init()
-	f[config.SampleStyleName] = &samplePkg
+	f[sample.StyleName] = &samplePkg
 
 	bootstrap5Pkg := bootstrap5.Init()
-	f[config.Bootstrap5StyleName] = &bootstrap5Pkg
+	f[bootstrap5.StyleName] = &bootstrap5Pkg
 
 	bulmaPkg := bulma.Init()
-	f[config.BulmaStyleName] = &bulmaPkg
+	f[bulma.StyleName] = &bulmaPkg
 
 	f[sup.SM.StyleName].LoadLibrary()
 

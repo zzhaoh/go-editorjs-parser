@@ -7,6 +7,7 @@ import (
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/js"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
 	"io/ioutil"
 	"log"
@@ -22,8 +23,8 @@ var SM domain.StyleMap
 //go:embed libs/*
 var libsFiles embed.FS
 
-//go:embed styles/*
-var stylesFiles embed.FS
+//go:embed assets/*
+var assetsFiles embed.FS
 
 func ReadJsonFile(jsonFilePath string) (jsonData string, err error) {
 	data, err := ioutil.ReadFile(jsonFilePath)
@@ -48,21 +49,21 @@ func MinifyLib(libPath, libType string) (contentMinified []byte) {
 	return
 }
 
-func LoadStyle(styleFile, styleType string) (contentFile []byte) {
-	contentFile, err := stylesFiles.ReadFile("styles/" + styleType + "/" + styleFile)
+func LoadAsset(assetFile, assetType string) (contentFile []byte) {
+	contentFile, err := assetsFiles.ReadFile("assets/" + assetType + "/" + assetFile)
 	if err != nil {
-		log.Println("Error loading style file\n", err)
+		log.Println("Error loading asset file\n", err)
 	}
 
 	return
 }
 
-func MinifyStyle(stylePath, styleType string) (contentMinified []byte) {
-	contentFile, err := stylesFiles.ReadFile("styles/" + styleType + "/" + stylePath)
+func MinifyAsset(assetPath, assetType string) (contentMinified []byte) {
+	contentFile, err := assetsFiles.ReadFile(assetPath)
 	if err == nil {
-		contentMinified, err = MinifyContent(contentFile, styleType)
+		contentMinified, err = MinifyContent(contentFile, assetType)
 		if err != nil {
-			log.Println("Error minifying style file\n", err)
+			log.Println("Error minifying asset file\n", err)
 		}
 	}
 
@@ -239,14 +240,10 @@ func toFixed(num float64, precision int) float64 {
 func WriteOutputFile(outputFilePath, outputContent, outputType string) (err error) {
 	outputPath := outputFilePath
 
-	if !strings.HasSuffix(outputFilePath, "/") && outputFilePath != "" {
-		outputPath = outputFilePath + "/"
-	}
-
-	if outputType == "html" {
-		outputPath += "output.html"
-	} else if outputType == "markdown" {
-		outputPath += "output.md"
+	if outputType == "html" && !strings.HasSuffix(outputFilePath, ".html") {
+		outputPath = "output.html"
+	} else if outputType == "markdown" && !strings.HasSuffix(outputFilePath, ".md") {
+		outputPath = "output.md"
 	}
 
 	err = os.WriteFile(outputPath, []byte(outputContent), 0644)
@@ -269,7 +266,7 @@ func ParseEditorJSON(editorJS string) domain.EditorJS {
 }
 
 func LoadStyleMap(path string) {
-	content := LoadStyle(path,"json")
+	content := LoadAsset(path,"json")
 
 	err := json.Unmarshal(content, &SM)
 	if err != nil {
@@ -297,4 +294,13 @@ func AppendBlockScript(blockScript string) (blockScriptOut string){
 	blockScriptMinified, _ := MinifyContent([]byte(blockScript), "js")
 	blockScriptOut = string(blockScriptMinified)
 	return
+}
+
+func IsValidStyle(style string) bool {
+	for _ , s := range config.AvailableStyles() {
+		if s == style {
+			return true
+		}
+	}
+	return false
 }

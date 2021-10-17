@@ -3,8 +3,8 @@ package bootstrap5
 import (
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/common"
 	sup "gitlab.com/rodrigoodhin/go-editorjs-parser/support"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
-	"strings"
 )
 
 type Object struct {
@@ -13,6 +13,13 @@ type Object struct {
 	Styles  []string
 	Scripts []string
 }
+
+const (
+	StyleName = "bootstrap5"
+	MapFile = "bootstrap5.json"
+	ScriptFile = "bootstrap5.js"
+	ScriptType = "js"
+)
 
 func Init() (framework Object) {
 	return framework
@@ -43,24 +50,11 @@ func (o *Object) LoadLibrary(){
 		o.Styles = append(o.Styles, `<link rel="stylesheet" href="`+l+`">`)
 	}
 
-	return
+	o.Scripts = append(o.Scripts, string(sup.MinifyAsset(config.AssetsScriptPath+ScriptFile, ScriptType)))
 }
 
 func (o *Object) CreatePage() string {
-	script := "\n\n<script>\n" + strings.Join(o.Scripts[:], "\n") + "\n</script>\n\n"
-
-	return `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-` + strings.Join(o.Styles[:], "\n") + ` 
-  </head>
-  <body>
-` + strings.Join(o.Result[:], "\n\n") + script + `
-</body>
-</html>
-`
+	return common.CreatePage(o.Scripts, o.Styles, o.Result)
 }
 
 func (o *Object) Header() {

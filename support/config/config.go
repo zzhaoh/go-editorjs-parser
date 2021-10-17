@@ -1,14 +1,12 @@
 package config
 
 const (
-	SampleStyleName = "sample"
-	SampleJSONFile = "sample.json"
-
-	Bootstrap5StyleName = "bootstrap5"
-	Bootstrap5JSONFile = "bootstrap5.json"
-
-	BulmaStyleName = "bulma"
-	BulmaJSONFile = "bulma.json"
-
 	LibsPath = "support/libs/"
+	AssetsStylePath = "assets/css/"
+	AssetsScriptPath = "assets/js/"
+	AssetsMapPath = "assets/json/"
 )
+
+func AvailableStyles() []string {
+	return []string{"sample", "bootstrap5", "bulma"}
+}

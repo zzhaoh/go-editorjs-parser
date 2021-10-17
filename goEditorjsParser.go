@@ -12,7 +12,7 @@ import (
 func main() {
 
 	jsonPath := flag.String("j", "", "Path to a JSON file")
-	style := flag.String("s", "default", "Style CSS to be used. If not set, the default style will be used. Possible values: \"default\", \"bootstrap5\" or \"PATH/TO/YOUR/CUSTOM/STYLE/MAP\"")
+	style := flag.String("s", "sample", "Style CSS to be used. If not set, the default style will be used. Possible values: \"default\", \"bootstrap5\" or \"PATH/TO/YOUR/CUSTOM/STYLE/MAP\"")
 	outputFile := flag.String("o", "", "Output file path. If not set, root path will be used")
 	outputType := flag.String("t", "", "Output file type. Possible values are: markdown or html")
 
@@ -27,7 +27,7 @@ func main() {
 	if *outputType == "" || *outputType == "html" {
 		switch *style {
 		case "default":
-			err = html.Default(*jsonPath, *outputFile)
+			err = html.Sample(*jsonPath, *outputFile)
 		case "bootstrap5":
 			err = html.Bootstrap5(*jsonPath, *outputFile)
 		default:

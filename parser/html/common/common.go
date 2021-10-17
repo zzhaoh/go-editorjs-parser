@@ -10,6 +10,29 @@ import (
 	"strings"
 )
 
+func CreatePage(scripts, styles, result []string) string {
+	script := "\n\n<script>\n" + strings.Join(scripts[:], "\n") + "\n</script>\n\n"
+
+	page := `<!DOCTYPE html>
+<html>
+  <head>
+`
+	for _, h := range sup.SM.PageHead {
+		page += h + `
+`
+	}
+
+	page += strings.Join(styles[:], "\n") + ` 
+  </head>
+  <body>
+` + strings.Join(result[:], "\n\n") + script + ` 
+</body>
+</html>
+`
+
+	return page
+}
+
 func Header(el *domain.EditorJSDataHeader) string {
 	anchor := ""
 	if el.Anchor != "" {
@@ -52,7 +75,7 @@ func Quote(el *domain.EditorJSDataQuote) string {
 func Warning(el *domain.EditorJSDataWarning) string {
 	var output []string
 
-	output = append(output, `<div class="` + sup.SM.Warning + `">`,
+	output = append(output, `<div class="` + sup.SM.Warning.Block + `">`,
 		`<b>`,
 		el.Title,
 		`</b>`,
@@ -73,7 +96,7 @@ func Delimiter() string {
 func Alert(el *domain.EditorJSDataAlert) string {
 	var output []string
 
-	output = append(output, `<div class="` + sup.SM.Alert["box"] + ` ` + sup.SM.Alert[el.Type] + `">`,
+	output = append(output, `<div class="` + sup.SM.Alert.Block + ` ` + sup.SM.Alert.Types[el.Type] + `">`,
 		el.Message,
 		`</div>`)
 

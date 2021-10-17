@@ -3,14 +3,15 @@ package domain
 type StyleMap struct {
 	StyleName          string            `json:"styleName"`
 	LibraryPaths       []string          `json:"libraryPaths"`
+	PageHead           []string          `json:"pageHead"`
 	SpaceBetweenBlocks string            `json:"spaceBetweenBlocks"`
 	Alignment          map[string]string `json:"alignment"`
 	Header             map[string]string `json:"header"`
 	Paragraph          string            `json:"paragraph"`
 	Quote              QuoteStyle        `json:"quote"`
-	Warning            string            `json:"warning"`
+	Warning            WarningStyle      `json:"warning"`
 	Delimiter          string            `json:"delimiter"`
-	Alert              map[string]string `json:"alert"`
+	Alert              AlertStyle        `json:"alert"`
 	List               ListStyle         `json:"list"`
 	Checklist          ChecklistStyle    `json:"checklist"`
 	Table              TableStyle        `json:"table"`
@@ -27,6 +28,19 @@ type QuoteStyle struct {
 	Figure     string `json:"figure"`
 	Blockquote string `json:"blockquote"`
 	Figcaption string `json:"figcaption"`
+	Author     string `json:"author"`
+}
+
+type WarningStyle struct {
+	Block       string `json:"block"`
+	Title       string `json:"title"`
+	CloseButton bool   `json:"closeButton"`
+}
+
+type AlertStyle struct {
+	Block       string            `json:"block"`
+	CloseButton bool              `json:"closeButton"`
+	Types       map[string]string `json:"types"`
 }
 
 type ListStyle struct {
@@ -56,6 +70,8 @@ type CodeStyle struct {
 }
 
 type ImageStyle struct {
+	Block      string `json:"block"`
+	Image      string `json:"image"`
 	Border     string `json:"border"`
 	Stretched  string `json:"stretched"`
 	Background string `json:"background"`
