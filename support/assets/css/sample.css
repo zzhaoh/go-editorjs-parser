@@ -63,6 +63,7 @@
 .raw_block { color: #000000; }
 
 /* Image */
+.image img { max-width: 100%; }
 .image_with_background { background: #eff2f5; padding: 30px; }
 .image_with_border { border: 2px solid #000000; }
 .image_stretched { max-width: 100%; width: 100%; }

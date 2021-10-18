@@ -1,5 +1,5 @@
 <div align="center">
-<img width="300" src="https://i.ibb.co/nCDpvSH/logo-small.png" alt="go-editorjs-parser logo">
+<img src="https://i.ibb.co/nCDpvSH/logo-small.png" alt="go-editorjs-parser logo">
 <br><br>
 <img src="https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white" >
 <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" >
@@ -34,11 +34,11 @@ import (
 func main() {
 
     // Parse a EditorJS JSOn file to HTML file
-    html.Sample("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.html")
-    html.Bootstrap("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.html")
+	html.Sample("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.html")
+	html.Bootstrap("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.html")
     html.Bulma("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.html")
     html.Custom("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.html", "YOUR/STYLE/FILE.json")
-    
+
     // Parse a EditorJS JSOn file to MARKDOWN file
     markdown.Parser("YOUR/EDITORJS/OUTPUT/FILE.json", "YOUR/OUTPUT/FILE.md")
 }
@@ -67,18 +67,3 @@ Example:
 ./goEditorjsParser -j Input.json -s sample -o output/ -t html
 ./goEditorjsParser -j Input.json -o output/ -t markdown
 ```
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-## [Full Documentation](https://rodrigoodhin.gitlab.io/go-editorjs-parser/)
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-## LICENSE
-
-[MIT License](/LICENSE)
-

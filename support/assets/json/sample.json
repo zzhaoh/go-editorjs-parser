@@ -74,9 +74,9 @@
       "code": "raw_block"
     },
     "image": {
-      "border": "image_with_border",
-      "stretched": "image_stretched",
-      "background": "image_with_background"
+      "border": "image image_with_border",
+      "stretched": "image image_stretched",
+      "background": "image image_with_background"
     },
     "linkTool": {
       "link": "",

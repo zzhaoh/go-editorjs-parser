@@ -1,1 +1,0 @@
-<div align="center"><img src="/readme/_media/logo.png" alt="logo"></div>

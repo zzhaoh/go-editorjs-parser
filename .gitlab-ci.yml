@@ -34,7 +34,7 @@ pages:
     - npm i docsify-cli -g
     - rm -rf public
     - mkdir public
-    - cp -r readme/* public
+    - cp -r docs/* public
     - docsify serve public &
   artifacts:
     paths:

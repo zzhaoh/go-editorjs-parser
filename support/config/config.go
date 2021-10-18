@@ -8,5 +8,5 @@ const (
 )
 
 func AvailableStyles() []string {
-	return []string{"sample", "bootstrap5", "bulma"}
+	return []string{"sample", "bootstrap", "bulma"}
 }

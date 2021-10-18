@@ -1,7 +1,7 @@
 package html
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bootstrap5"
+	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bootstrap"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bulma"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/sample"
 	sup "gitlab.com/rodrigoodhin/go-editorjs-parser/support"
@@ -26,8 +26,8 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 	samplePkg := sample.Init()
 	f[sample.StyleName] = &samplePkg
 
-	bootstrap5Pkg := bootstrap5.Init()
-	f[bootstrap5.StyleName] = &bootstrap5Pkg
+	bootstrapPkg := bootstrap.Init()
+	f[bootstrap.StyleName] = &bootstrapPkg
 
 	bulmaPkg := bulma.Init()
 	f[bulma.StyleName] = &bulmaPkg

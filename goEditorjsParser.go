@@ -12,7 +12,7 @@ import (
 func main() {
 
 	jsonPath := flag.String("j", "", "Path to a JSON file")
-	style := flag.String("s", "sample", "Style CSS to be used. If not set, the default style will be used. Possible values: \"default\", \"bootstrap5\" or \"PATH/TO/YOUR/CUSTOM/STYLE/MAP\"")
+	style := flag.String("s", "sample", "Style CSS to be used. If not set, the sample style will be used. Possible values: \"sample\", \"bootstrap\", \"bulma\" or \"PATH/TO/YOUR/CUSTOM/STYLE/MAP\"")
 	outputFile := flag.String("o", "", "Output file path. If not set, root path will be used")
 	outputType := flag.String("t", "", "Output file type. Possible values are: markdown or html")
 
@@ -28,8 +28,10 @@ func main() {
 		switch *style {
 		case "default":
 			err = html.Sample(*jsonPath, *outputFile)
-		case "bootstrap5":
-			err = html.Bootstrap5(*jsonPath, *outputFile)
+		case "bootstrap":
+			err = html.Bootstrap(*jsonPath, *outputFile)
+		case "bulma":
+			err = html.Bulma(*jsonPath, *outputFile)
 		default:
 			err = html.Custom(*jsonPath, *outputFile, *style)
 		}
@@ -52,7 +54,7 @@ func main() {
 func usage() {
 	fmt.Printf("\n%s -j <JSONFilePath> -s <Style> -o <OutputFilePath> -t <OutputFileType>\n\n", os.Args[0])
 	fmt.Println("-j = Path to a JSON file. MANDATORY")
-	fmt.Println("-s = Style CSS to be used. If not set, the default style will be used. Possible values: \"default\", \"bootstrap5\" or \"PATH/TO/YOUR/CUSTOM/STYLE/MAP\"")
+	fmt.Println("-s = Style CSS to be used. If not set, the sample style will be used. Possible values: \"sample\", \"bootstrap\", \"bulma\" or \"PATH/TO/YOUR/CUSTOM/STYLE/MAP\"")
 	fmt.Println("-o = Output file path. If not set, root path will be used")
 	fmt.Printf("-t = Output file type. Possible values: markdown or html\n\n")
 }
