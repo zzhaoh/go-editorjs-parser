@@ -21,7 +21,10 @@ const (
 	ScriptType = "js"
 )
 
-func Init() (framework Object) {
+func Init(useDefaultMap bool) (framework Object) {
+	if useDefaultMap {
+		sup.LoadStyleMap(MapFile)
+	}
 	return framework
 }
 

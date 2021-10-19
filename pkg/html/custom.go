@@ -7,5 +7,5 @@ import (
 
 func Custom(jsonFilePath, outputFilePath, stylePath string) (err error) {
 	support.LoadExternalStyleMap(stylePath)
-	return html.Parser(jsonFilePath, outputFilePath)
+	return html.Parser(jsonFilePath, outputFilePath, "custom")
 }

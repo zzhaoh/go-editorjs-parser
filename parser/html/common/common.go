@@ -56,12 +56,7 @@ func Header(el *domain.EditorJSDataHeader) string {
 }
 
 func Paragraph(el *domain.EditorJSDataParagraph) string {
-	alignment := ""
-	if el.Alignment != "" {
-		alignment = ` class="` + sup.SM.Blocks.Paragraph + ` ` + sup.SM.Alignment[el.Alignment] + `"`
-	}
-
-	return fmt.Sprintf("<p%s>%s</p>", alignment, el.Text)
+	return fmt.Sprintf("<p%s>%s</p>", ` class="` + sup.SM.Blocks.Paragraph + ` ` + sup.SM.Alignment[el.Alignment] + `"`, el.Text)
 }
 
 func Quote(el *domain.EditorJSDataQuote) string {

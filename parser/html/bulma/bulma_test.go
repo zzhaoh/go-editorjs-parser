@@ -1,18 +1,19 @@
 package bulma
 
 import (
+	"github.com/matryer/is"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
 	"strconv"
 
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
-var obj = Init()
+var obj = Init(true)
 
 func TestHeaderBlock(t *testing.T) {
+	is := is.New(t)
+
 	for i := 1; i <= 6; i++ {
 		level := strconv.Itoa(i)
 
@@ -31,10 +32,16 @@ func TestHeaderBlock(t *testing.T) {
 		editorJSON1 := support.ParseEditorJSON(input1)
 		obj.Data = support.PrepareData(editorJSON1.Blocks[0]).(*domain.EditorJSDataHeader)
 
-		expected1 := `<h`+level+`>Level `+level+` Header</h`+level+`>`
-		actual1 := obj.Header()
-		assert.Equal(t, expected1, actual1)
+		expected1 := `<div class="content"><h`+level+`  class="title is-`+level+`">Level `+level+` Header</h`+level+`></div>`
+
+		obj.Header()
+
+		actual1 := obj.Result[i-1]
+
+		is.Equal(expected1, actual1) // Header 1 is different from expected
 	}
+
+	obj.Result = []string{}
 
 	for i := 1; i <= 6; i++ {
 		level := strconv.Itoa(i)
@@ -55,13 +62,21 @@ func TestHeaderBlock(t *testing.T) {
 		editorJSON1 := support.ParseEditorJSON(input1)
 		obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-		expected1 := `<h`+level+` id="anchor-text-`+level+`">Level `+level+` Header</h`+level+`>`
-		actual1 := obj.Header()
-		assert.Equal(t, expected1, actual1)
+		expected1 := `<div class="content"><h`+level+` id="anchor-text-`+level+`" class="title is-`+level+`">Level `+level+` Header</h`+level+`></div>`
+
+		obj.Header()
+
+		actual1 := obj.Result[i-1]
+
+		is.Equal(expected1, actual1) // Header 2 is different from expected
 	}
 }
 
 func TestParagraphBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input1 := `{
     "blocks": [
         {
@@ -76,9 +91,15 @@ func TestParagraphBlock(t *testing.T) {
 	editorJSON1 := support.ParseEditorJSON(input1)
 	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-	expected1 := `<p>I am a paragraph!</p>`
-	actual1 := obj.Paragraph()
-	assert.Equal(t, expected1, actual1)
+	expected1 := `<div class="content"><p class=" ">I am a paragraph!</p></div>`
+
+	obj.Paragraph()
+
+	actual1 := obj.Result[0]
+
+	is.Equal(expected1, actual1) // Paragraph 1 is different from expected
+
+	obj.Result = []string{}
 
 	input2 := `{
     "blocks": [
@@ -95,12 +116,20 @@ func TestParagraphBlock(t *testing.T) {
 	editorJSON2 := support.ParseEditorJSON(input2)
 	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
-	expected2 := `<p style="text-align:center">I am a paragraph!</p>`
-	actual2 := obj.Paragraph()
-	assert.Equal(t, expected2, actual2)
+	expected2 := `<div class="content"><p class=" has-text-centered">I am a paragraph!</p></div>`
+
+	obj.Paragraph()
+
+	actual2 := obj.Result[0]
+
+	is.Equal(expected2, actual2) // Paragraph 2 is different from expected
 }
 
 func TestQuoteBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -117,19 +146,27 @@ func TestQuoteBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<figure class="quote">
-<blockquote style="text-align: center">
+	expected := `<div class="content">
+<blockquote class=" has-text-centered">
 The journey of a thousand miles begins with one step.
+<p class="is-italic">
+Lao Tzu
+</p>
 </blockquote>
-<figcaption style="text-align: center">
-&mdash; Lao Tzu
-</figcaption>
-</figure>`
-	actual := obj.Quote()
-	assert.Equal(t, expected, actual)
+</div>`
+
+	obj.Quote()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Quote is different from expected
 }
 
 func TestWarningBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -145,23 +182,40 @@ func TestWarningBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<div class="warning-msg">
-<b>
+	expected := `<div class="notification is-warning is-light">
+<button class="delete"></button>
+<span class="has-text-weight-bold">
 Note:
-</b>
+</span>
 Avoid using this method just for lulz. It can be very dangerous opposite your daily fun stuff.
 </div>`
-	actual := obj.Warning()
-	assert.Equal(t, expected, actual)
+
+	obj.Warning()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Warning is different from expected
 }
 
 func TestDelimiterBlock(t *testing.T) {
-	expected := `<div class="ce-delimiter cdx-block"></div>`
-	actual := obj.Delimiter()
-	assert.Equal(t, expected, actual)
+	is := is.New(t)
+
+	obj.Result = []string{}
+
+	expected := `<div class="has-text-centered is-size-4">***</div>`
+
+	obj.Delimiter()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Delimiter is different from expected
 }
 
 func TestAlertBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -177,16 +231,23 @@ func TestAlertBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<div class="cdx-alert cdx-alert-primary">
-<div class="cdx-alert__message">
+	expected := `<div class="notification is-primary">
+<button class="delete"></button>
 Something happened that you should know about.
-</div>
 </div>`
-	actual := obj.Alert()
-	assert.Equal(t, expected, actual)
+
+	obj.Alert()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Alert is different from expected
 }
 
 func TestListBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input1 := `{
     "blocks": [
         {
@@ -206,13 +267,19 @@ func TestListBlock(t *testing.T) {
 	editorJSON1 := support.ParseEditorJSON(input1)
 	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-	expected1 := `<ul>
-<li>This is a block-styled editor</li>
-<li>Clean output data</li>
-<li>Simple and powerful API</li>
-</ul>`
-	actual1 := obj.List()
-	assert.Equal(t, expected1, actual1)
+	expected1 := `<div class="content"><ul class="content">
+<li class="">This is a block-styled editor</li>
+<li class="">Clean output data</li>
+<li class="">Simple and powerful API</li>
+</ul></div>`
+
+	obj.List()
+
+	actual1 := obj.Result[0]
+
+	is.Equal(expected1, actual1) // List 1 is different from expected
+
+	obj.Result = []string{}
 
 	input2 := `{
     "blocks": [
@@ -293,55 +360,63 @@ func TestListBlock(t *testing.T) {
 	editorJSON2 := support.ParseEditorJSON(input2)
 	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
-	expected2 := `<ol>
-<li>Cars
-<ol>
-<li>BMW
-<ol>
-<li>Z3
+	expected2 := `<div class="content"><ol class="content">
+<li class="">Cars</li>
+<ol class="">
+<li class="">BMW</li>
+<ol class="">
+<li class="">Z3</li>
 </li>
-<li>Z4
-</li>
-</ol>
-</li>
-<li>Audi
-<ol>
-<li>A3
-</li>
-<li>A1
+<li class="">Z4</li>
 </li>
 </ol>
 </li>
-</ol>
+<li class="">Audi</li>
+<ol class="">
+<li class="">A3</li>
 </li>
-<li>Motorcycle
-<ol>
-<li>Ducati
-<ol>
-<li>916
-</li>
-</ol>
-</li>
-<li>Yamanha
-<ol>
-<li>DT 180
-</li>
-</ol>
-</li>
-<li>Honda
-<ol>
-<li>VFR 750R
+<li class="">A1</li>
 </li>
 </ol>
 </li>
 </ol>
 </li>
-</ol>`
-	actual2 := obj.List()
-	assert.Equal(t, expected2, actual2)
+<li class="">Motorcycle</li>
+<ol class="">
+<li class="">Ducati</li>
+<ol class="">
+<li class="">916</li>
+</li>
+</ol>
+</li>
+<li class="">Yamanha</li>
+<ol class="">
+<li class="">DT 180</li>
+</li>
+</ol>
+</li>
+<li class="">Honda</li>
+<ol class="">
+<li class="">VFR 750R</li>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol></div>`
+
+	obj.List()
+
+	actual2 := obj.Result[0]
+
+	is.Equal(expected2, actual2) // List 2 is different from expected
 }
 
 func TestChecklistBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -369,25 +444,33 @@ func TestChecklistBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<div class="cdx-block cdx-checklist">
-<div class="cdx-checklist__item cdx-checklist__item--checked">
-<span class="cdx-checklist__item-checkbox"></span>
-<div class="cdx-checklist__item-text">This is a block-styled editor</div>
+	expected := `<div class="">
+<div class="">
+<span class="tag is-link is-rounded">&#10004;</span>
+<span class="">This is a block-styled editor</span>
 </div>
-<div class="cdx-checklist__item cdx-checklist">
-<span class="cdx-checklist__item-checkbox"></span>
-<div class="cdx-checklist__item-text">Clean output data</div>
+<div class="">
+<span class="tag is-rounded">&nbsp;-&nbsp;</span>
+<span class="">Clean output data</span>
 </div>
-<div class="cdx-checklist__item cdx-checklist__item--checked">
-<span class="cdx-checklist__item-checkbox"></span>
-<div class="cdx-checklist__item-text">Simple and powerful API</div>
+<div class="">
+<span class="tag is-link is-rounded">&#10004;</span>
+<span class="">Simple and powerful API</span>
 </div>
 </div>`
-	actual := obj.Checklist()
-	assert.Equal(t, expected, actual)
+
+	obj.Checklist()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Checklist is different from expected
 }
 
 func TestTableBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input1 := `{
     "blocks": [
         {
@@ -419,25 +502,31 @@ func TestTableBlock(t *testing.T) {
 	editorJSON1 := support.ParseEditorJSON(input1)
 	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-	expected1 := `<table>
-<tr>
-<th>Kine</th>
-<th>Pigs</th>
-<th>Chicken</th>
+	expected1 := `<table class="table is-striped is-bordered">
+<tr class="">
+<th class="">Kine</th>
+<th class="">Pigs</th>
+<th class="">Chicken</th>
 </tr>
-<tr>
-<td>1 pcs</td>
-<td>3 pcs</td>
-<td>12 pcs</td>
+<tr class="">
+<td class="">1 pcs</td>
+<td class="">3 pcs</td>
+<td class="">12 pcs</td>
 </tr>
-<tr>
-<td>100$</td>
-<td>200$</td>
-<td>150$</td>
+<tr class="">
+<td class="">100$</td>
+<td class="">200$</td>
+<td class="">150$</td>
 </tr>
 </table>`
-	actual1 := obj.Table()
-	assert.Equal(t, expected1, actual1)
+
+	obj.Table()
+
+	actual1 := obj.Result[0]
+
+	is.Equal(expected1, actual1) // Table 1 is different from expected
+
+	obj.Result = []string{}
 
 	input2 := `{
     "blocks": [
@@ -469,28 +558,36 @@ func TestTableBlock(t *testing.T) {
 	editorJSON2 := support.ParseEditorJSON(input2)
 	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
-	expected2 := `<table>
-<tr>
-<td>Kine</td>
-<td>1 pcs</td>
-<td>100$</td>
+	expected2 := `<table class="table is-striped is-bordered">
+<tr class="">
+<td class="">Kine</td>
+<td class="">1 pcs</td>
+<td class="">100$</td>
 </tr>
-<tr>
-<td>Pigs</td>
-<td>3 pcs</td>
-<td>200$</td>
+<tr class="">
+<td class="">Pigs</td>
+<td class="">3 pcs</td>
+<td class="">200$</td>
 </tr>
-<tr>
-<td>Chickens</td>
-<td>12 pcs</td>
-<td>150$</td>
+<tr class="">
+<td class="">Chickens</td>
+<td class="">12 pcs</td>
+<td class="">150$</td>
 </tr>
 </table>`
-	actual2 := obj.Table()
-	assert.Equal(t, expected2, actual2)
+
+	obj.Table()
+
+	actual2 := obj.Result[0]
+
+	is.Equal(expected2, actual2) // Table 2 is different from expected
 }
 
 func TestAnyButtonBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -506,12 +603,20 @@ func TestAnyButtonBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<a class="AnyButton" href="https://editorjs.io/">editorjs official</a>`
-	actual := obj.AnyButton()
-	assert.Equal(t, expected, actual)
+	expected := `<a class="button is-link" href="https://editorjs.io/">editorjs official</a>`
+
+	obj.AnyButton()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // AnyButton is different from expected
 }
 
 func TestCodeBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input1 := `{
     "blocks": [
         {
@@ -526,13 +631,20 @@ func TestCodeBlock(t *testing.T) {
 	editorJSON1 := support.ParseEditorJSON(input1)
 	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-	expected1 := `<pre><code class="language-">body {
+	expected1 := `<pre class="">
+<code class="">body {
  font-size: 14px;
  line-height: 16px;
 }
 </code></pre>`
-	actual1 := obj.Code()
-	assert.Equal(t, expected1, actual1)
+
+	obj.Code()
+
+	actual1 := obj.Result[0]
+
+	is.Equal(expected1, actual1) // Code 1 is different from expected
+
+	obj.Result = []string{}
 
 	input2 := `{
     "blocks": [
@@ -549,16 +661,25 @@ func TestCodeBlock(t *testing.T) {
 	editorJSON2 := support.ParseEditorJSON(input2)
 	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
-	expected2 := `<pre><code class="language-css">body {
+	expected2 := `<pre class="">
+<code class="">body {
  font-size: 14px;
  line-height: 16px;
 }
 </code></pre>`
-	actual2 := obj.Code()
-	assert.Equal(t, expected2, actual2)
+
+	obj.Code()
+
+	actual2 := obj.Result[0]
+
+	is.Equal(expected2, actual2) // Code 2 is different from expected
 }
 
 func TestRawBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -573,104 +694,137 @@ func TestRawBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<pre class="preRaw"><code>&lt;div style="background: #000; color: #fff; font-size: 30px; padding: 50px;"&gt;Any HTML code&lt;/div&gt;
+	expected := `<pre class="">
+<code class="">&lt;div style="background: #000; color: #fff; font-size: 30px; padding: 50px;"&gt;Any HTML code&lt;/div&gt;
 </code></pre>`
-	actual := obj.Raw()
-	assert.Equal(t, expected, actual)
+
+	obj.Raw()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Raw is different from expected
 }
 
 func TestImageBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input1 := `{
     "blocks": [
         {
-            "type": "image",
-            "data": {
-                "caption": "Roadster // tesla.com",
-                "file": {
-                    "url": "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg"
-                },
-                "stretched": false,
-                "withBackground": true,
-                "withBorder": true
-            }
-        }
+		  "type" : "image",
+		  "data" : {
+			"url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
+			"caption" : "Mountain",
+			"withBorder" : true,
+			"withBackground" : true,
+			"stretched" : true
+		  }
+		}
     ]
 }`
 
 	editorJSON1 := support.ParseEditorJSON(input1)
 	obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-	expected1 := `<div class="img-with-border img-with-background " ><img src="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" alt="Roadster // tesla.com" title="Roadster // tesla.com" /></div>`
-	actual1 := obj.Image()
-	assert.Equal(t, expected1, actual1)
+	expected1 := `<figure class="image has-background-primary p-5" ><img class="  is-fullwidth" src="https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg" alt="Mountain" title="Mountain" /></figure>`
+
+	obj.Image()
+
+	actual1 := obj.Result[0]
+
+	is.Equal(expected1, actual1) // Image 1 is different from expected
+
+	obj.Result = []string{}
 
 	input2 := `{
     "blocks": [
         {
-            "type": "image",
-            "data": {
-                "caption": "Roadster // tesla.com",
-                "stretched": true,
-                "url": "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
-                "withBackground": false,
-                "withBorder": false
-            }
-        }
+		  "type" : "image",
+		  "data" : {
+			"file": {
+			  "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg"
+			},
+			"caption" : "Mountain",
+			"withBorder" : false,
+			"withBackground" : true,
+			"stretched" : false
+		  }
+		}
     ]
 }`
 
 	editorJSON2 := support.ParseEditorJSON(input2)
 	obj.Data = support.PrepareData(editorJSON2.Blocks[0])
 
-	expected2 := `<div class="img-stretched " ><img src="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" alt="Roadster // tesla.com" title="Roadster // tesla.com" /></div>`
-	actual2 := obj.Image()
-	assert.Equal(t, expected2, actual2)
+	expected2 := `<figure class="image has-background-primary p-5" ><img class=" " src="https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg" alt="Mountain" title="Mountain" /></figure>`
+
+	obj.Image()
+
+	actual2 := obj.Result[0]
+
+	is.Equal(expected2, actual2) // Image 2 is different from expected
 }
 
 func TestLinkToolBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
-            "type": "linkTool",
-            "data": {
-                "link": "https://codex.so",
-                "meta": {
-                    "description": "Club of web-development, design and marketing. We build team learning how to build full-valued projects on the world market.",
-                    "image": {
-                        "url": "https://codex.so/public/app/img/meta_img.png"
-                    },
-                    "site_name": "CodeX",
-                    "title": "CodeX Team"
-                }
-            }
-        }
+		  "type" : "linkTool",
+		  "data" : {
+			"link" : "https://codex.so",
+			"meta" : {
+			  "title" : "CodeX Team",
+			  "site_name" : "CodeX",
+			  "description" : "Club of web-development, design and marketing. We build team learning how to build full-valued projects on the world market.",
+			  "image" : {
+				"url" : "https://pbs.twimg.com/profile_images/993612654861344768/wMPEM5XW_400x400.jpg"
+			  }
+			}
+		  }
+		}
     ]
 }`
 
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<a href="https://codex.so" target="_Blank" rel="nofollow noindex noreferrer" class="linkTool_anchor">
-<div class="linkTool_content">
-<div class="linkTool_left_side">
-<div class="linkTool_title">
+	expected := `<a href="https://codex.so" target="_Blank" rel="nofollow noindex noreferrer" class="has-text-black-bis">
+<div class="columns is-full p-5 has-background-light m-5">
+<div class="column is-10">
+<div class="column is-12 has-text-weight-bold">
 CodeX Team
 </div>
-<div class="linkTool_description">
+<div class="column is-12">
 Club of web-development, design and marketing. We build team learning how to build full-valued projects on the world market.
 </div>
-<div class="linkTool_title_anchor">
+<div class="column is-12 has-text-grey-light">
 codex.so
 </div>
 </div>
-<div class="linkTool_image" style="background: url(https://codex.so/public/app/img/meta_img.png)"></div>
+<div class="column is-2">
+<img class="image is-96x96" src="https://pbs.twimg.com/profile_images/993612654861344768/wMPEM5XW_400x400.jpg" />
+</div>
 </div>
 </a>`
-	actual := obj.LinkTool()
-	assert.Equal(t, expected, actual)
+
+	obj.LinkTool()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // LinkTool is different from expected
 }
 
 func TestAttachesBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -691,25 +845,37 @@ func TestAttachesBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<a href="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" rel="noopener noreferrer" target="_blank" class="attaches-anchor">
-<div class="attaches-content">
-<div class="attaches-left" style="background: url(https://i.ibb.co/K7Myr2k/file-icon.png)"></div>
-<div class="attaches-center">
-<div class="attaches-filename">
+	expected := `<a href="https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg" rel="noopener noreferrer" target="_blank" class="has-text-black-bis">
+<div class="columns is-full p-5 has-background-light m-5">
+<div class="column is-2" >
+<img class="image is-96x96" src="https://i.ibb.co/K7Myr2k/file-icon.png" />
+</div>
+<div class="column is-9">
+<div class="column is-12 has-text-weight-bold">
 hero.jpg
 </div>
-<div class="attaches-size">
+<div class="column is-12 has-text-grey-light">
 254 KiB
 </div>
 </div>
-<div class="attaches-right" style="background: url(https://i.ibb.co/VYyHr6C/download-icon.png)"></div>
+<div class="column is-1" >
+<img class="image is-48x48" src="https://i.ibb.co/VYyHr6C/download-icon.png" />
+</div>
 </div>
 </a>`
-	actual := obj.Attaches()
-	assert.Equal(t, expected, actual)
+
+	obj.Attaches()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Attaches is different from expected
 }
 
 func TestEmbedBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -729,18 +895,26 @@ func TestEmbedBlock(t *testing.T) {
 	editorJSON := support.ParseEditorJSON(input)
 	obj.Data = support.PrepareData(editorJSON.Blocks[0])
 
-	expected := `<div class="embed-block" style="max-width: 560px">
-<div class="embed-title">Lamborghini Aventador SVJ</div>
+	expected := `<div class="" style="max-width: 560px">
+<div class="has-text-grey-dark p-2 has-text-weight-bold">Lamborghini Aventador SVJ</div>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/viW44cUfxCE" title="Lamborghini Aventador SVJ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<div class="embed-bottom">
-<a href="https://www.youtube.com/watch?v=viW44cUfxCE" target="_Blank">Watch on Youtube</a>
+<div class="p-2 has-text-right is-italic">
+<a class="has-text-danger-dark" href="https://www.youtube.com/watch?v=viW44cUfxCE" target="_Blank">Watch on Youtube</a>
 </div>
 </div>`
-	actual := obj.Embed()
-	assert.Equal(t, expected, actual)
+
+	obj.Embed()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // Embed is different from expected
 }
 
 func TestImageGalleryBlock(t *testing.T) {
+	is := is.New(t)
+
+	obj.Result = []string{}
+
 	input := `{
     "blocks": [
         {
@@ -781,6 +955,10 @@ func TestImageGalleryBlock(t *testing.T) {
 <img src="https://cdn.wallpapersafari.com/94/22/4H3mFp.jpg" id="gg-image-6" />
 </div>
 </div>`
-	actual, _ := obj.ImageGallery()
-	assert.Equal(t, expected, actual)
+
+	obj.ImageGallery()
+
+	actual := obj.Result[0]
+
+	is.Equal(expected, actual) // ImageGallery is different from expected
 }

@@ -13,7 +13,27 @@ import (
 	"strings"
 )
 
-func Parser(jsonFilePath, outputFilePath string) (err error) {
+func Parser(jsonFilePath, outputFilePath, styleName string) (err error) {
+
+	useDefault := true
+	if styleName == "custom" {
+		useDefault = false
+		styleName = sup.SM.StyleName
+	}
+
+	var f domain.EditorJSMethods
+	switch styleName {
+	case sample.StyleName:
+		samplePkg := sample.Init(useDefault)
+		f = &samplePkg
+	case bootstrap.StyleName:
+		bootstrapPkg := bootstrap.Init(useDefault)
+		f = &bootstrapPkg
+	case bulma.StyleName:
+		bulmaPkg := bulma.Init(useDefault)
+		f = &bulmaPkg
+	}
+
 	if reflect.DeepEqual(sup.SM, domain.StyleMap{}) {
 		log.Fatal("Style map is empty\n", err)
 	}
@@ -22,17 +42,7 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 		log.Fatal("Invalid style name: "+sup.SM.StyleName+"\n", err)
 	}
 
-	f := make(map[string]domain.EditorJSMethods)
-	samplePkg := sample.Init()
-	f[sample.StyleName] = &samplePkg
-
-	bootstrapPkg := bootstrap.Init()
-	f[bootstrap.StyleName] = &bootstrapPkg
-
-	bulmaPkg := bulma.Init()
-	f[bulma.StyleName] = &bulmaPkg
-
-	f[sup.SM.StyleName].LoadLibrary()
+	f.LoadLibrary()
 
 	input, err := sup.ReadJsonFile(jsonFilePath)
 	if err != nil {
@@ -44,54 +54,54 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 	for _, el := range editorJSON.Blocks {
 
 		styles, scripts := appendLibs(el)
-		f[sup.SM.StyleName].SetStyles(styles)
-		f[sup.SM.StyleName].SetScripts(scripts)
-		f[sup.SM.StyleName].Separator()
-		f[sup.SM.StyleName].SetData(sup.PrepareData(el))
+		f.SetStyles(styles)
+		f.SetScripts(scripts)
+		f.Separator()
+		f.SetData(sup.PrepareData(el))
 
 		switch el.Type {
 
 		case "header":
-			f[sup.SM.StyleName].Header()
+			f.Header()
 		case "paragraph":
-			f[sup.SM.StyleName].Paragraph()
+			f.Paragraph()
 		case "quote":
-			f[sup.SM.StyleName].Quote()
+			f.Quote()
 		case "warning":
-			f[sup.SM.StyleName].Warning()
+			f.Warning()
 		case "delimiter":
-			f[sup.SM.StyleName].Delimiter()
+			f.Delimiter()
 		case "alert":
-			f[sup.SM.StyleName].Alert()
+			f.Alert()
 		case "list":
-			f[sup.SM.StyleName].List()
+			f.List()
 		case "checklist":
-			f[sup.SM.StyleName].Checklist()
+			f.Checklist()
 		case "table":
-			f[sup.SM.StyleName].Table()
+			f.Table()
 		case "AnyButton":
-			f[sup.SM.StyleName].AnyButton()
+			f.AnyButton()
 		case "code":
-			f[sup.SM.StyleName].Code()
+			f.Code()
 		case "raw":
-			f[sup.SM.StyleName].Raw()
+			f.Raw()
 		case "image":
-			f[sup.SM.StyleName].Image()
+			f.Image()
 		case "linkTool":
-			f[sup.SM.StyleName].LinkTool()
+			f.LinkTool()
 		case "attaches":
-			f[sup.SM.StyleName].Attaches()
+			f.Attaches()
 		case "embed":
-			f[sup.SM.StyleName].Embed()
+			f.Embed()
 		case "imageGallery":
-			f[sup.SM.StyleName].ImageGallery()
+			f.ImageGallery()
 		}
 
 	}
 
-	f[sup.SM.StyleName].Separator()
+	f.Separator()
 
-	err = sup.WriteOutputFile(outputFilePath, f[sup.SM.StyleName].CreatePage(), "html")
+	err = sup.WriteOutputFile(outputFilePath, f.CreatePage(), "html")
 	if err != nil {
 		log.Println("It was not possible to write the output html file\n", err)
 	}

@@ -10,31 +10,31 @@ func main() {
 
 	err := html.Sample("example/example.json", "example/sample.html")
 	if err != nil {
-		log.Println("It was not possible to parse json to html file\n",err)
+		log.Println("It was not possible to parse json to html file\n", err)
 		return
 	}
 
 	err = html.Bootstrap("example/example.json", "example/bootstrap.html")
 	if err != nil {
-		log.Println("It was not possible to parse json to html file\n",err)
+		log.Println("It was not possible to parse json to html file\n", err)
 		return
 	}
 
 	err = html.Bulma("example/example.json", "example/bulma.html")
 	if err != nil {
-		log.Println("It was not possible to parse json to html file\n",err)
+		log.Println("It was not possible to parse json to html file\n", err)
 		return
 	}
 
 	err = html.Custom("example/example.json", "example/custom.html", "example/test.json")
 	if err != nil {
-		log.Println("It was not possible to parse json to html file\n",err)
+		log.Println("It was not possible to parse json to html file\n", err)
 		return
 	}
 
-	err = markdown.Parser("./example/example.json", "example")
+	err = markdown.Parser("./example/example.json", "example/example.md")
 	if err != nil {
-		log.Println("It was not possible to parse json to markdown file\n",err)
+		log.Println("It was not possible to parse json to markdown file\n", err)
 		return
 	}
 
