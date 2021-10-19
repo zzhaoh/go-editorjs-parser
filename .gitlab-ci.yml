@@ -1,4 +1,5 @@
 stages:
+  - deploy
   - tag
   - release
 
@@ -25,3 +26,18 @@ create-release:
       release-cli create --name "v$(date +%y.%m.%d)" --description "Version v$(date +%y.%m.%d) created at $(date +%Y-%m-%d)"
       --tag-name "v$(date +%y.%m.%d)" --ref $CI_COMMIT_SHA
       --released-at "$(date +%Y-%m-%d %H:%M:%S)"
+
+pages:
+  stage: deploy
+  image: node:14.17.6
+  script:
+    - npm i docsify-cli -g
+    - rm -rf public
+    - mkdir public
+    - cp -r docs/* public
+    - docsify serve public &
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

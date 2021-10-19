@@ -303,10 +303,10 @@
       "type" : "image",
       "data" : {
         "file": {
-          "url" : "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg"
+          "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg"
         },
-        "caption" : "Roadster // tesla.com",
-        "withBorder" : true,
+        "caption" : "Mountain",
+        "withBorder" : false,
         "withBackground" : true,
         "stretched" : false
       }
@@ -314,8 +314,8 @@
     {
       "type" : "image",
       "data" : {
-        "url" : "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
-        "caption" : "Roadster // tesla.com",
+        "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
+        "caption" : "Mountain",
         "withBorder" : false,
         "withBackground" : false,
         "stretched" : true
@@ -324,8 +324,8 @@
     {
       "type" : "image",
       "data" : {
-        "url" : "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
-        "caption" : "Roadster // tesla.com",
+        "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
+        "caption" : "Mountain",
         "withBorder" : true,
         "withBackground" : true,
         "stretched" : true
@@ -340,7 +340,7 @@
           "site_name" : "CodeX",
           "description" : "Club of web-development, design and marketing. We build team learning how to build full-valued projects on the world market.",
           "image" : {
-            "url" : "https://codex.so/public/app/img/meta_img.png"
+            "url" : "https://pbs.twimg.com/profile_images/993612654861344768/wMPEM5XW_400x400.jpg"
           }
         }
       }

@@ -478,7 +478,7 @@ pre.preRaw code {
     width: 100%
 }
 
-.linkTool-content {
+.linkTool_content {
     background: #fafafa;
     padding: 25px;
     border: 1px solid rgba(201, 201, 204, .48);
@@ -492,17 +492,17 @@ pre.preRaw code {
     margin: 10px
 }
 
-.linkTool-content::after {
+.linkTool_content::after {
     content: "";
     clear: both;
     display: table
 }
 
-.linkTool-content:hover {
+.linkTool_content:hover {
     box-shadow: 0 0 3px rgba(0, 0, 0, .16)
 }
 
-.linkTool-image {
+.linkTool_image {
     background-position: 50%!important;
     background-repeat: no-repeat!important;
     background-size: cover!important;
@@ -513,19 +513,19 @@ pre.preRaw code {
     float: right
 }
 
-.linkTool-title {
+.linkTool_title {
     font-size: 17px;
     font-weight: 600;
     line-height: 1.5em;
     margin: 0 0 10px
 }
 
-.linkTool-title-anchor {
+.linkTool_title_anchor {
     margin-top: 25px;
     color: #888!important
 }
 
-.linkTool-description {
+.linkTool_description {
     margin: 0 0 20px;
     font-size: 15px;
     line-height: 1.55em;
@@ -533,7 +533,7 @@ pre.preRaw code {
     overflow: hidden
 }
 
-.linkTool-anchor {
+.linkTool_anchor {
     display: block;
     font-size: 15px;
     line-height: 1em;
@@ -542,7 +542,7 @@ pre.preRaw code {
     text-decoration: none
 }
 
-.linkTool-left-side {
+.linkTool_left_side {
     float: left;
     width: calc(100% - 100px)
 }

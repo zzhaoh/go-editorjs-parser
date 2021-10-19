@@ -3,6 +3,7 @@ module gitlab.com/rodrigoodhin/go-editorjs-parser
 go 1.17
 
 require (
+	github.com/matryer/is v1.4.0
 	github.com/stretchr/testify v1.7.0
 	github.com/tdewolff/minify/v2 v2.9.22
 )
