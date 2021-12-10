@@ -1,11 +1,13 @@
 <div align="center">
-<img width="300" src="https://i.ibb.co/nCDpvSH/logo-small.png" alt="go-editorjs-parser logo">
-<br><br>
+
+![](/assets/logo_small.png "go-editorjs-parser")
+
+<br>
 <img src="https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white" >
 <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" >
 <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" >
 <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" >
-<br><br><br>
+<br><br>
 <a href="#"><img src="https://img.shields.io/badge/build-passing-green"></a>
 <a href="#"><img src="https://img.shields.io/badge/test-success-green"></a>
 <a href="#"><img src="https://img.shields.io/badge/Editor.js-2.22.2-blue"></a>
