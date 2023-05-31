@@ -1,10 +1,10 @@
 package sample
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/common"
-	sup "gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/common"
+	sup "gitlab.com/zzhaoh/go-editorjs-parser/support"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/config"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 )
 
 type Object struct {
@@ -15,8 +15,8 @@ type Object struct {
 }
 
 const (
-	StyleName = "sample"
-	MapFile = "sample.json"
+	StyleName  = "sample"
+	MapFile    = "sample.json"
 	ScriptFile = "sample.js"
 	ScriptType = "js"
 )
@@ -28,21 +28,21 @@ func Init(useDefaultMap bool) (framework Object) {
 	return framework
 }
 
-func (o *Object) SetData(data interface{})  {
+func (o *Object) SetData(data interface{}) {
 	o.Data = data
 }
 
-func (o *Object) SetStyles(styles []string)  {
+func (o *Object) SetStyles(styles []string) {
 	for _, style := range styles {
 		o.Styles = append(o.Styles, style)
 	}
 }
 
-func (o *Object) SetResult(result string)  {
+func (o *Object) SetResult(result string) {
 	o.Result = append(o.Result, result)
 }
 
-func (o *Object) SetScripts(scripts []string)  {
+func (o *Object) SetScripts(scripts []string) {
 	for _, script := range scripts {
 		o.Scripts = append(o.Scripts, script)
 	}
@@ -50,7 +50,7 @@ func (o *Object) SetScripts(scripts []string)  {
 
 func (o *Object) LoadLibrary() {
 	for _, l := range sup.SM.LibraryPaths {
-		o.Styles = append(o.Styles, `<style>` + string(sup.LoadAsset(l, "css")) + `</style>`)
+		o.Styles = append(o.Styles, `<style>`+string(sup.LoadAsset(l, "css"))+`</style>`)
 	}
 
 	o.Scripts = append(o.Scripts, string(sup.MinifyAsset(config.AssetsScriptPath+ScriptFile, ScriptType)))

@@ -2,10 +2,10 @@ package bulma
 
 import (
 	"fmt"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/common"
-	sup "gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/common"
+	sup "gitlab.com/zzhaoh/go-editorjs-parser/support"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/config"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 	"strings"
 )
 
@@ -63,7 +63,7 @@ func (o *Object) CreatePage() string {
 }
 
 func (o *Object) Separator() {
-	 o.SetResult(common.Separator())
+	o.SetResult(common.Separator())
 }
 
 func (o *Object) Header() {
@@ -192,21 +192,21 @@ func (o *Object) LinkTool() {
 	obj := o.Data.(*domain.EditorJSDataLinkTool)
 	var output []string
 
-	output = append(output, `<a href="`+obj.Link+`" target="_Blank" rel="nofollow noindex noreferrer" class="` + sup.SM.Blocks.LinkTool.Link + `">`,
-		`<div class="` + sup.SM.Blocks.LinkTool.Container + `">`,
-		`<div class="` + sup.SM.Blocks.LinkTool.LeftColumn + `">`,
-		`<div class="` + sup.SM.Blocks.LinkTool.Title + `">`,
+	output = append(output, `<a href="`+obj.Link+`" target="_Blank" rel="nofollow noindex noreferrer" class="`+sup.SM.Blocks.LinkTool.Link+`">`,
+		`<div class="`+sup.SM.Blocks.LinkTool.Container+`">`,
+		`<div class="`+sup.SM.Blocks.LinkTool.LeftColumn+`">`,
+		`<div class="`+sup.SM.Blocks.LinkTool.Title+`">`,
 		obj.Meta.Title,
 		`</div>`,
-		`<div class="` + sup.SM.Blocks.LinkTool.Description + `">`,
+		`<div class="`+sup.SM.Blocks.LinkTool.Description+`">`,
 		obj.Meta.Description,
 		`</div>`,
-		`<div class="` + sup.SM.Blocks.LinkTool.LinkDescription + `">`,
+		`<div class="`+sup.SM.Blocks.LinkTool.LinkDescription+`">`,
 		strings.ReplaceAll(strings.ReplaceAll(obj.Link, "https://", ""), "http://", ""),
 		`</div>`,
 		`</div>`,
-		`<div class="` + sup.SM.Blocks.LinkTool.RightColumn + `">`,
-		`<img class="` + sup.SM.Blocks.LinkTool.Image + `" src="` + obj.Meta.Image.URL + `" />`,
+		`<div class="`+sup.SM.Blocks.LinkTool.RightColumn+`">`,
+		`<img class="`+sup.SM.Blocks.LinkTool.Image+`" src="`+obj.Meta.Image.URL+`" />`,
 		`</div>`,
 		`</div>`,
 		`</a>`)
@@ -218,21 +218,21 @@ func (o *Object) Attaches() {
 	obj := o.Data.(*domain.EditorJSDataAttaches)
 	var output []string
 
-	output = append(output, `<a href="` + obj.File.URL + `" rel="noopener noreferrer" target="_blank" class="` + sup.SM.Blocks.Attaches.Link + `">`,
-		`<div class="` + sup.SM.Blocks.Attaches.Container + `">`,
-		`<div class="` + sup.SM.Blocks.Attaches.LeftColumn + `" >`,
-		`<img class="` + sup.SM.Blocks.Attaches.LeftImage + `" src="https://i.ibb.co/K7Myr2k/file-icon.png" />`,
+	output = append(output, `<a href="`+obj.File.URL+`" rel="noopener noreferrer" target="_blank" class="`+sup.SM.Blocks.Attaches.Link+`">`,
+		`<div class="`+sup.SM.Blocks.Attaches.Container+`">`,
+		`<div class="`+sup.SM.Blocks.Attaches.LeftColumn+`" >`,
+		`<img class="`+sup.SM.Blocks.Attaches.LeftImage+`" src="https://i.ibb.co/K7Myr2k/file-icon.png" />`,
 		`</div>`,
-		`<div class="` + sup.SM.Blocks.Attaches.CenterColumn + `">`,
-		`<div class="` + sup.SM.Blocks.Attaches.Filename + `">`,
+		`<div class="`+sup.SM.Blocks.Attaches.CenterColumn+`">`,
+		`<div class="`+sup.SM.Blocks.Attaches.Filename+`">`,
 		obj.File.Name,
 		`</div>`,
-		`<div class="` + sup.SM.Blocks.Attaches.Size + `">`,
+		`<div class="`+sup.SM.Blocks.Attaches.Size+`">`,
 		sup.HumanFileSize(obj.File.Size),
 		`</div>`,
 		`</div>`,
-		`<div class="` + sup.SM.Blocks.Attaches.RightColumn + `" >`,
-		`<img class="` + sup.SM.Blocks.Attaches.RightImage + `" src="https://i.ibb.co/VYyHr6C/download-icon.png" />`,
+		`<div class="`+sup.SM.Blocks.Attaches.RightColumn+`" >`,
+		`<img class="`+sup.SM.Blocks.Attaches.RightImage+`" src="https://i.ibb.co/VYyHr6C/download-icon.png" />`,
 		`</div>`,
 		`</div>`,
 		`</a>`)

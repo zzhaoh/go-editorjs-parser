@@ -1,8 +1,8 @@
 package html
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/sample"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/sample"
 )
 
 func Sample(jsonFilePath, outputFilePath string) (err error) {

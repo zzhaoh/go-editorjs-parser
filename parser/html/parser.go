@@ -1,12 +1,12 @@
 package html
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bootstrap"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/bulma"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/parser/html/sample"
-	sup "gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/bootstrap"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/bulma"
+	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/sample"
+	sup "gitlab.com/zzhaoh/go-editorjs-parser/support"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/config"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 	"log"
 	"os"
 	"reflect"

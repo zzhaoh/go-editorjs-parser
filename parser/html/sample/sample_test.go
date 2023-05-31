@@ -2,8 +2,8 @@ package sample
 
 import (
 	"github.com/matryer/is"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 	"strconv"
 
 	"testing"
@@ -22,8 +22,8 @@ func TestHeaderBlock(t *testing.T) {
         {
             "type": "header",
             "data": {
-                "level": `+level+`,
-                "text": "Level `+level+` Header"
+                "level": ` + level + `,
+                "text": "Level ` + level + ` Header"
             }
         }
     ]
@@ -32,7 +32,7 @@ func TestHeaderBlock(t *testing.T) {
 		editorJSON1 := support.ParseEditorJSON(input1)
 		obj.Data = support.PrepareData(editorJSON1.Blocks[0]).(*domain.EditorJSDataHeader)
 
-		expected1 := `<h`+level+`  class="">Level `+level+` Header</h`+level+`>`
+		expected1 := `<h` + level + `  class="">Level ` + level + ` Header</h` + level + `>`
 
 		obj.Header()
 
@@ -51,9 +51,9 @@ func TestHeaderBlock(t *testing.T) {
         {
             "type": "header",
             "data": {
-                "level": `+level+`,
-                "text": "Level `+level+` Header",
-				"anchor": "Anchor Text `+level+`"
+                "level": ` + level + `,
+                "text": "Level ` + level + ` Header",
+				"anchor": "Anchor Text ` + level + `"
             }
         }
     ]
@@ -62,7 +62,7 @@ func TestHeaderBlock(t *testing.T) {
 		editorJSON1 := support.ParseEditorJSON(input1)
 		obj.Data = support.PrepareData(editorJSON1.Blocks[0])
 
-		expected1 := `<h`+level+` id="anchor-text-`+level+`" class="">Level `+level+` Header</h`+level+`>`
+		expected1 := `<h` + level + ` id="anchor-text-` + level + `" class="">Level ` + level + ` Header</h` + level + `>`
 
 		obj.Header()
 

@@ -3,8 +3,8 @@ package markdown
 import (
 	"encoding/json"
 	"fmt"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 	"log"
 	"strconv"
 	"strings"
@@ -17,42 +17,42 @@ func Header(el *domain.EditorJSDataHeader) string {
 		headerLevel += "#"
 	}
 
-	return fmt.Sprintf("%s %s",headerLevel,el.Text)
+	return fmt.Sprintf("%s %s", headerLevel, el.Text)
 }
 
 func Paragraph(el *domain.EditorJSDataParagraph) string {
-	return fmt.Sprintf("%s",el.Text)
+	return fmt.Sprintf("%s", el.Text)
 }
 
 func Quote(el *domain.EditorJSDataQuote) string {
-	quoteMD := `> `+el.Text+`
+	quoteMD := `> ` + el.Text + `
 >
-> --- `+el.Caption
+> --- ` + el.Caption
 
-	return fmt.Sprintf("%s",quoteMD)
+	return fmt.Sprintf("%s", quoteMD)
 }
 
 func Warning(el *domain.EditorJSDataWarning) string {
-	warningMD := `> `+el.Title+`
+	warningMD := `> ` + el.Title + `
 >
-> --- `+el.Message
+> --- ` + el.Message
 
-	return fmt.Sprintf("%s",warningMD)
+	return fmt.Sprintf("%s", warningMD)
 }
 
 func Delimiter() string {
 	delimiterMD := `
 ***
 `
-	return fmt.Sprintf("%s",delimiterMD)
+	return fmt.Sprintf("%s", delimiterMD)
 }
 
 func Alert(el *domain.EditorJSDataAlert) string {
 	alertMD := `
-| `+el.Message+` |
+| ` + el.Message + ` |
 | --- |`
 
-	return fmt.Sprintf("%s",alertMD)
+	return fmt.Sprintf("%s", alertMD)
 }
 
 func List(el *domain.EditorJSDataList) string {
@@ -121,7 +121,7 @@ func Table(el *domain.EditorJSDataTable) string {
 			lineSeparator := `|`
 
 			for _, info := range line {
-				lineTitle += ` `+info+` |`
+				lineTitle += ` ` + info + ` |`
 				lineSeparator += `---|`
 			}
 
@@ -136,7 +136,7 @@ func Table(el *domain.EditorJSDataTable) string {
 			for _, info := range line {
 				lineTitle += ` |`
 				lineSeparator += `---|`
-				lineContent += ` `+info+` |`
+				lineContent += ` ` + info + ` |`
 			}
 
 			result = append(result, lineTitle)
@@ -147,7 +147,7 @@ func Table(el *domain.EditorJSDataTable) string {
 			lineData := `|`
 
 			for _, info := range line {
-				lineData += ` `+info+` |`
+				lineData += ` ` + info + ` |`
 			}
 
 			result = append(result, lineData)

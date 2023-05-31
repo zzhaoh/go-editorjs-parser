@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/pkg/html"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/pkg/markdown"
+	"gitlab.com/zzhaoh/go-editorjs-parser/pkg/html"
+	"gitlab.com/zzhaoh/go-editorjs-parser/pkg/markdown"
 	"io"
 	"log"
 	"os"

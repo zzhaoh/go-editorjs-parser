@@ -7,8 +7,8 @@ import (
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/js"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/config"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/config"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 	"io/ioutil"
 	"log"
 	"math"
@@ -119,13 +119,13 @@ func CreateHTMLNestedList(items []domain.NestedListItem, listStyle string, first
 	var result []string
 
 	if first {
-		result = append(result, `<` + listStyle + ` class="` + SM.Blocks.List.Group + `">`)
+		result = append(result, `<`+listStyle+` class="`+SM.Blocks.List.Group+`">`)
 	} else {
-		result = append(result, `<` + listStyle + ` class="` + SM.Blocks.List.NestedGroup + `">`)
+		result = append(result, `<`+listStyle+` class="`+SM.Blocks.List.NestedGroup+`">`)
 	}
 
 	for _, item := range items {
-		result = append(result, `<li class="` + SM.Blocks.List.Item + `">` + item.Content + `</li>`)
+		result = append(result, `<li class="`+SM.Blocks.List.Item+`">`+item.Content+`</li>`)
 
 		if len(item.Items) > 0 {
 			result = append(result, CreateHTMLNestedList(item.Items, listStyle, false))
@@ -134,7 +134,7 @@ func CreateHTMLNestedList(items []domain.NestedListItem, listStyle string, first
 		result = append(result, `</li>`)
 	}
 
-	result = append(result, `</` + listStyle + `>`)
+	result = append(result, `</`+listStyle+`>`)
 
 	return strings.Join(result[:], "\n")
 }
@@ -266,7 +266,7 @@ func ParseEditorJSON(editorJS string) domain.EditorJS {
 }
 
 func LoadStyleMap(path string) {
-	content := LoadAsset(path,"json")
+	content := LoadAsset(path, "json")
 
 	err := json.Unmarshal(content, &SM)
 	if err != nil {
@@ -290,14 +290,14 @@ func LoadExternalStyleMap(path string) {
 	return
 }
 
-func AppendBlockScript(blockScript string) (blockScriptOut string){
+func AppendBlockScript(blockScript string) (blockScriptOut string) {
 	blockScriptMinified, _ := MinifyContent([]byte(blockScript), "js")
 	blockScriptOut = string(blockScriptMinified)
 	return
 }
 
 func IsValidStyle(style string) bool {
-	for _ , s := range config.AvailableStyles() {
+	for _, s := range config.AvailableStyles() {
 		if s == style {
 			return true
 		}

@@ -1,8 +1,8 @@
 package markdown
 
 import (
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support"
-	"gitlab.com/rodrigoodhin/go-editorjs-parser/support/domain"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support"
+	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
 	"strconv"
 
 	"testing"
@@ -21,8 +21,8 @@ func TestHeaderBlock(t *testing.T) {
         {
             "type": "header",
             "data": {
-                "level": `+level+`,
-                "text": "Level `+level+` Header"
+                "level": ` + level + `,
+                "text": "Level ` + level + ` Header"
             }
         }
     ]
@@ -31,7 +31,7 @@ func TestHeaderBlock(t *testing.T) {
 		editorJSON1 := support.ParseEditorJSON(input1)
 		content1 := support.PrepareData(editorJSON1.Blocks[0])
 
-		expected1 := header1+ `Level `+level+` Header`
+		expected1 := header1 + `Level ` + level + ` Header`
 		actual1 := Header(content1.(*domain.EditorJSDataHeader))
 		assert.Equal(t, expected1, actual1)
 
@@ -48,9 +48,9 @@ func TestHeaderBlock(t *testing.T) {
         {
             "type": "header",
             "data": {
-                "level": `+level+`,
-                "text": "Level `+level+` Header",
-				"anchor": "Anchor Text `+level+`"
+                "level": ` + level + `,
+                "text": "Level ` + level + ` Header",
+				"anchor": "Anchor Text ` + level + `"
             }
         }
     ]
@@ -59,7 +59,7 @@ func TestHeaderBlock(t *testing.T) {
 		editorJSON1 := support.ParseEditorJSON(input1)
 		content1 := support.PrepareData(editorJSON1.Blocks[0])
 
-		expected1 := header2+ `Level `+level+` Header`
+		expected1 := header2 + `Level ` + level + ` Header`
 		actual1 := Header(content1.(*domain.EditorJSDataHeader))
 		assert.Equal(t, expected1, actual1)
 
