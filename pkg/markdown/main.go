@@ -9,12 +9,28 @@ import (
 )
 
 func Parser(jsonFilePath, outputFilePath string) (err error) {
-	var result []string
 
 	input, err := support.ReadJsonFile(jsonFilePath)
 	if err != nil {
-		log.Println("It was not possible to read the input json file\n",err)
+		log.Println("It was not possible to read the input json file\n", err)
 	}
+
+	content, err := ParserStr(input)
+	if err != nil {
+		log.Println("parse error\n", err)
+		return
+	}
+
+	err = support.WriteOutputFile(outputFilePath, content, "markdown")
+	if err != nil {
+		log.Println("It was not possible to write the output markdown file\n", err)
+	}
+
+	return
+}
+
+func ParserStr(input string) (string, error) {
+	var result []string
 
 	editorJSAST := support.ParseEditorJSON(input)
 
@@ -64,10 +80,5 @@ func Parser(jsonFilePath, outputFilePath string) (err error) {
 
 	content := strings.Join(result[:], "\n\n")
 
-	err = support.WriteOutputFile(outputFilePath, content, "markdown")
-	if err != nil {
-		log.Println("It was not possible to write the output markdown file\n",err)
-	}
-
-	return
+	return content, nil
 }

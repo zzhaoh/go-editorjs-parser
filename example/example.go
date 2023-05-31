@@ -1,9 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/pkg/html"
 	"gitlab.com/rodrigoodhin/go-editorjs-parser/pkg/markdown"
+	"io"
 	"log"
+	"os"
 )
 
 func main() {
@@ -38,4 +41,27 @@ func main() {
 		return
 	}
 
+	open, err := os.Open("./example/example.json")
+	if err != nil {
+		log.Println("open file error\n", err)
+		return
+	}
+	all, err := io.ReadAll(open)
+	if err != nil {
+		log.Println("io.ReadAll error\n", err)
+		return
+	}
+	str, err := html.SampleStr(string(all))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(str)
+
+	parserStr, err := markdown.ParserStr(string(all))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(parserStr)
 }

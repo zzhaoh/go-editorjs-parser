@@ -13,7 +13,39 @@ import (
 	"strings"
 )
 
-func Parser(jsonFilePath, outputFilePath, styleName string) (err error) {
+func Parser(jsonFilePath, outputFilePath, styleName string) error {
+
+	input, err := sup.ReadJsonFile(jsonFilePath)
+	if err != nil {
+		log.Println("It was not possible to read the input json file\n", err)
+	}
+
+	output, err := parser1(input, styleName)
+	if err != nil {
+		log.Println("It was not possible to write the output html file\n", err)
+		return err
+	}
+
+	err = sup.WriteOutputFile(outputFilePath, output, "html")
+	if err != nil {
+		log.Println("It was not possible to write the output html file\n", err)
+		return err
+	}
+
+	return nil
+}
+
+func ParserStr(input, styleName string) (string, error) {
+	output, err := parser1(input, styleName)
+	if err != nil {
+		log.Println("It was not possible to write the output html file\n", err)
+		return "", err
+	}
+
+	return output, nil
+}
+
+func parser1(input, styleName string) (output string, err error) {
 
 	useDefault := true
 	if styleName == "custom" {
@@ -43,11 +75,6 @@ func Parser(jsonFilePath, outputFilePath, styleName string) (err error) {
 	}
 
 	f.LoadLibrary()
-
-	input, err := sup.ReadJsonFile(jsonFilePath)
-	if err != nil {
-		log.Println("It was not possible to read the input json file\n", err)
-	}
 
 	editorJSON := sup.ParseEditorJSON(input)
 
@@ -100,22 +127,18 @@ func Parser(jsonFilePath, outputFilePath, styleName string) (err error) {
 	}
 
 	f.Separator()
-
-	err = sup.WriteOutputFile(outputFilePath, f.CreatePage(), "html")
-	if err != nil {
-		log.Println("It was not possible to write the output html file\n", err)
-	}
+	output = f.CreatePage()
 
 	return
 }
 
-func appendLibs(block domain.EditorJSBlock) (styles []string, scripts []string){
+func appendLibs(block domain.EditorJSBlock) (styles []string, scripts []string) {
 	libName := strings.ToLower(block.Type)
 	libPath := config.LibsPath + libName + "/"
 	if _, err := os.Stat(libPath); !os.IsNotExist(err) {
 		styleMinified := string(sup.MinifyLib(libName+"/"+libName+".css", "css"))
 		if styleMinified != "" {
-			styles = append(styles, `<style>` + styleMinified + `</style>`)
+			styles = append(styles, `<style>`+styleMinified+`</style>`)
 		}
 
 		scriptMinified := string(sup.MinifyLib(libName+"/"+libName+".js", "js"))
