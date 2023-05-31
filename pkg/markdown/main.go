@@ -1,9 +1,9 @@
 package markdown
 
 import (
-	"gitlab.com/zzhaoh/go-editorjs-parser/parser/markdown"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
+	"github.com/zzhaoh/go-editorjs-parser/parser/markdown"
+	"github.com/zzhaoh/go-editorjs-parser/support"
+	"github.com/zzhaoh/go-editorjs-parser/support/domain"
 	"log"
 	"strings"
 )

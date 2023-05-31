@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gitlab.com/zzhaoh/go-editorjs-parser/pkg/html"
-	"gitlab.com/zzhaoh/go-editorjs-parser/pkg/markdown"
+	"github.com/zzhaoh/go-editorjs-parser/pkg/html"
+	"github.com/zzhaoh/go-editorjs-parser/pkg/markdown"
 	"log"
 	"os"
 )

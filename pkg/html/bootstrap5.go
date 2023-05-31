@@ -1,8 +1,8 @@
 package html
 
 import (
-	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html"
-	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/bootstrap"
+	"github.com/zzhaoh/go-editorjs-parser/parser/html"
+	"github.com/zzhaoh/go-editorjs-parser/parser/html/bootstrap"
 )
 
 func Bootstrap(jsonFilePath, outputFilePath string) (err error) {

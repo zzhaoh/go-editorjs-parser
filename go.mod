@@ -1,4 +1,4 @@
-module gitlab.com/zzhaoh/go-editorjs-parser
+module github.com/zzhaoh/go-editorjs-parser
 
 go 1.17
 

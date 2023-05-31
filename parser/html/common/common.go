@@ -3,8 +3,8 @@ package common
 import (
 	"encoding/json"
 	"fmt"
-	sup "gitlab.com/zzhaoh/go-editorjs-parser/support"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
+	sup "github.com/zzhaoh/go-editorjs-parser/support"
+	"github.com/zzhaoh/go-editorjs-parser/support/domain"
 	"log"
 	"strconv"
 	"strings"

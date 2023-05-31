@@ -2,10 +2,10 @@ package bulma
 
 import (
 	"fmt"
-	"gitlab.com/zzhaoh/go-editorjs-parser/parser/html/common"
-	sup "gitlab.com/zzhaoh/go-editorjs-parser/support"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support/config"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
+	"github.com/zzhaoh/go-editorjs-parser/parser/html/common"
+	sup "github.com/zzhaoh/go-editorjs-parser/support"
+	"github.com/zzhaoh/go-editorjs-parser/support/config"
+	"github.com/zzhaoh/go-editorjs-parser/support/domain"
 	"strings"
 )
 

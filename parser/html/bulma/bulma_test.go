@@ -2,8 +2,8 @@ package bulma
 
 import (
 	"github.com/matryer/is"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support"
-	"gitlab.com/zzhaoh/go-editorjs-parser/support/domain"
+	"github.com/zzhaoh/go-editorjs-parser/support"
+	"github.com/zzhaoh/go-editorjs-parser/support/domain"
 	"strconv"
 
 	"testing"
