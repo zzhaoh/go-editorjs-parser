@@ -254,102 +254,150 @@
       }
     },
     {
-      "type" : "table",
-      "data" : {
+      "type": "table",
+      "data": {
         "withHeadings": true,
-        "content" : [ [ "Kine", "Pigs", "Chicken" ], [ "1 pcs", "3 pcs", "12 pcs" ], [ "100$", "200$", "150$" ] ]
+        "content": [
+          [
+            "Kine",
+            "Pigs",
+            "Chicken"
+          ],
+          [
+            "1 pcs",
+            "3 pcs",
+            "12 pcs"
+          ],
+          [
+            "100$",
+            "200$",
+            "150$"
+          ]
+        ]
       }
     },
     {
-      "type" : "table",
-      "data" : {
+      "type": "table",
+      "data": {
         "withHeadings": false,
-        "content" : [ [ "Kine", "Pigs", "Chicken" ], [ "4 pcs", "7 pcs", "52 pcs" ], [ "300$", "600$", "1050$" ] ]
+        "content": [
+          [
+            "Kine",
+            "Pigs",
+            "Chicken"
+          ],
+          [
+            "4 pcs",
+            "7 pcs",
+            "52 pcs"
+          ],
+          [
+            "300$",
+            "600$",
+            "1050$"
+          ]
+        ]
       }
     },
     {
-      "type" : "table",
-      "data" : {
-        "content" : [ ["Kine", "1 pcs", "100$"], ["Pigs", "3 pcs", "200$"], ["Chickens", "12 pcs", "150$"] ]
+      "type": "table",
+      "data": {
+        "content": [
+          [
+            "Kine",
+            "1 pcs",
+            "100$"
+          ],
+          [
+            "Pigs",
+            "3 pcs",
+            "200$"
+          ],
+          [
+            "Chickens",
+            "12 pcs",
+            "150$"
+          ]
+        ]
       }
     },
     {
-      "type" : "AnyButton",
-      "data" : {
-        "link" : "https://editorjs.io/",
-        "text" : "editorjs official"
+      "type": "AnyButton",
+      "data": {
+        "link": "https://editorjs.io/",
+        "text": "editorjs official"
       }
     },
     {
-      "type" : "code",
-      "data" : {
+      "type": "code",
+      "data": {
         "code": "body {\n font-size: 14px;\n line-height: 16px;\n}"
       }
     },
     {
-      "type" : "code",
-      "data" : {
+      "type": "code",
+      "data": {
         "code": "body {\n font-size: 14px;\n line-height: 16px;\n}",
         "languageCode": "css"
       }
     },
     {
-      "type" : "raw",
-      "data" : {
+      "type": "raw",
+      "data": {
         "html": "<div style=\"background: #000; color: #fff; font-size: 30px; padding: 50px;\">Any HTML code</div>"
       }
     },
     {
-      "type" : "image",
-      "data" : {
+      "type": "image",
+      "data": {
         "file": {
-          "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg"
+          "url": "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg"
         },
-        "caption" : "Mountain",
-        "withBorder" : false,
-        "withBackground" : true,
-        "stretched" : false
+        "caption": "Mountain",
+        "withBorder": false,
+        "withBackground": true,
+        "stretched": false
       }
     },
     {
-      "type" : "image",
-      "data" : {
-        "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
-        "caption" : "Mountain",
-        "withBorder" : false,
-        "withBackground" : false,
-        "stretched" : true
+      "type": "image",
+      "data": {
+        "url": "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
+        "caption": "Mountain",
+        "withBorder": false,
+        "withBackground": false,
+        "stretched": true
       }
     },
     {
-      "type" : "image",
-      "data" : {
-        "url" : "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
-        "caption" : "Mountain",
-        "withBorder" : true,
-        "withBackground" : true,
-        "stretched" : true
+      "type": "image",
+      "data": {
+        "url": "https://images.freeimages.com/images/large-previews/2d8/mountains-1384887.jpg",
+        "caption": "Mountain",
+        "withBorder": true,
+        "withBackground": true,
+        "stretched": true
       }
     },
     {
-      "type" : "linkTool",
-      "data" : {
-        "link" : "https://codex.so",
-        "meta" : {
-          "title" : "CodeX Team",
-          "site_name" : "CodeX",
-          "description" : "Club of web-development, design and marketing. We build team learning how to build full-valued projects on the world market.",
-          "image" : {
-            "url" : "https://pbs.twimg.com/profile_images/993612654861344768/wMPEM5XW_400x400.jpg"
+      "type": "linkTool",
+      "data": {
+        "link": "https://codex.so",
+        "meta": {
+          "title": "CodeX Team",
+          "site_name": "CodeX",
+          "description": "Club of web-development, design and marketing. We build team learning how to build full-valued projects on the world market.",
+          "image": {
+            "url": "https://pbs.twimg.com/profile_images/993612654861344768/wMPEM5XW_400x400.jpg"
           }
         }
       }
     },
     {
-      "type" : "attaches",
-      "data" : {
+      "type": "attaches",
+      "data": {
         "file": {
-          "url" : "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
+          "url": "https://www.tesla.com/tesla_theme/assets/img/_vehicle_redesign/roadster_and_semi/roadster/hero.jpg",
           "size": 260096,
           "name": "hero.jpg",
           "extension": "jpg"
@@ -358,14 +406,14 @@
       }
     },
     {
-      "type" : "embed",
-      "data" : {
-        "service" : "Youtube",
-        "source" : "https://www.youtube.com/watch?v=viW44cUfxCE",
-        "embed" : "https://www.youtube.com/embed/viW44cUfxCE",
-        "width" : 560,
-        "height" : 315,
-        "caption" : "Lamborghini Aventador SVJ"
+      "type": "embed",
+      "data": {
+        "service": "Youtube",
+        "source": "https://www.youtube.com/watch?v=viW44cUfxCE",
+        "embed": "https://www.youtube.com/embed/viW44cUfxCE",
+        "width": 560,
+        "height": 315,
+        "caption": "Lamborghini Aventador SVJ"
       }
     },
     {
@@ -388,6 +436,15 @@
         "layoutWithGap": false,
         "layoutWithFixedSize": false
       }
+    },
+    {
+      "id": "TOhD4DOCu4",
+      "data": {
+        "text": "{\n  labels: [\n    'Red',\n    'Blue',\n    'Yellow'\n  ],\n  datasets: [{\n    label: 'My First Dataset',\n    data: [300, 50, 100],\n    backgroundColor: [\n      'rgb(255, 99, 132)',\n      'rgb(54, 162, 235)',\n      'rgb(255, 205, 86)'\n    ],\n    hoverOffset: 4\n  }]\n}",
+        "caption": "pie",
+        "alignment": "center"
+      },
+      "type": "chart"
     }
   ],
   "version": "2.18.0"

@@ -254,3 +254,30 @@ func ImageGallery(el *domain.EditorJSDataImageGallery) string {
 
 	return strings.Join(result, "\n")
 }
+
+func Chart(el *domain.EditorJSDataChart) string {
+	var result []string
+
+	switch el.Caption {
+	case "pie":
+		var title string
+		var value []int
+		a := domain.ChartText{}
+		json.Unmarshal([]byte(el.Text), &a)
+		for _, item := range a.DataSets {
+			title = item.Label
+			value = item.Data
+		}
+		result = append(result, fmt.Sprintf("pie title %v", title))
+
+		for i, item := range a.Labels {
+			result = append(result, fmt.Sprintf("\"%v\":%d", item, value[i]))
+		}
+	//case "bar":
+	//case "bubble":
+	default:
+		result = append(result, fmt.Sprintf("%v", el))
+	}
+
+	return strings.Join(result, "\n")
+}

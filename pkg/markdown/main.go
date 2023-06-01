@@ -74,6 +74,8 @@ func ParserStr(input string) (string, error) {
 			result = append(result, markdown.Embed(content.(*domain.EditorJSDataEmbed)))
 		case "imageGallery":
 			result = append(result, markdown.ImageGallery(content.(*domain.EditorJSDataImageGallery)))
+		case "chart":
+			result = append(result, markdown.Chart(content.(*domain.EditorJSDataChart)))
 		}
 
 	}

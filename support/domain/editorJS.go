@@ -93,13 +93,27 @@ type EditorJSDataEmbed struct {
 }
 
 type EditorJSDataImageGallery struct {
-	URLs                []string      `json:"urls,omitempty"`
-	BkgMode             bool          `json:"bkgMode,omitempty"`
-	LayoutDefault       bool          `json:"layoutDefault,omitempty"`
-	LayoutHorizontal    bool          `json:"layoutHorizontal,omitempty"`
-	LayoutSquare        bool          `json:"layoutSquare,omitempty"`
-	LayoutWithGap       bool          `json:"layoutWithGap,omitempty"`
-	LayoutWithFixedSize bool          `json:"layoutWithFixedSize,omitempty"`
+	URLs                []string `json:"urls,omitempty"`
+	BkgMode             bool     `json:"bkgMode,omitempty"`
+	LayoutDefault       bool     `json:"layoutDefault,omitempty"`
+	LayoutHorizontal    bool     `json:"layoutHorizontal,omitempty"`
+	LayoutSquare        bool     `json:"layoutSquare,omitempty"`
+	LayoutWithGap       bool     `json:"layoutWithGap,omitempty"`
+	LayoutWithFixedSize bool     `json:"layoutWithFixedSize,omitempty"`
+}
+
+type EditorJSDataChart struct {
+	Text      string `json:"text,omitempty"`
+	Caption   string `json:"caption,omitempty"`
+	Alignment string `json:"alignment,omitempty"`
+}
+
+type ChartText struct {
+	Labels   []string `json:"labels"`
+	DataSets []struct {
+		Label string `json:"label"`
+		Data  []int  `json:"data"`
+	} `json:"datasets"`
 }
 
 type NestedListItem struct {

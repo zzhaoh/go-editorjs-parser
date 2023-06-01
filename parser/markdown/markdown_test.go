@@ -1,6 +1,7 @@
 package markdown
 
 import (
+	"fmt"
 	"github.com/zzhaoh/go-editorjs-parser/support"
 	"github.com/zzhaoh/go-editorjs-parser/support/domain"
 	"strconv"
@@ -691,5 +692,30 @@ func TestImageGalleryBlock(t *testing.T) {
 ![Image 6](https://cdn.wallpapersafari.com/94/22/4H3mFp.jpg)
 ---`
 	actual := ImageGallery(content.(*domain.EditorJSDataImageGallery))
+	assert.Equal(t, expected, actual)
+}
+
+func TestChart(t *testing.T) {
+	input := `{
+    "blocks": [
+        {
+            "type": "chart",
+            "data": {
+         	"text": "{\"labels\":[\"a\",\"b\"],\"datasets\":[{\"label\":\"this is title\",\"data\":[1,2,3]}]}",
+            "caption": "pie",
+            "alignment": "center"
+            }
+        }
+    ]
+}`
+
+	editorJSON := support.ParseEditorJSON(input)
+	content := support.PrepareData(editorJSON.Blocks[0])
+
+	expected := `pie title this is title
+"a":1
+"b":2`
+	actual := Chart(content.(*domain.EditorJSDataChart))
+	fmt.Println(actual)
 	assert.Equal(t, expected, actual)
 }

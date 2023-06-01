@@ -198,7 +198,8 @@ func PrepareData(el domain.EditorJSBlock) (data interface{}) {
 		data = new(domain.EditorJSDataEmbed)
 	case "imageGallery":
 		data = new(domain.EditorJSDataImageGallery)
-
+	case "chart":
+		data = new(domain.EditorJSDataChart)
 	}
 
 	err = json.Unmarshal(jsonData, &data)
